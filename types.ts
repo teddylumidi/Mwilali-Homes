@@ -1,3 +1,4 @@
+
 export interface UnitVariant {
   name: string;
   size: string;
@@ -9,6 +10,7 @@ export interface UnitVariant {
 export interface InteriorGallery {
   title: string;
   images: string[];
+  badge?: string;
 }
 
 export interface Property {
@@ -27,6 +29,7 @@ export interface Property {
   imageUrl: string;
   gallery?: string[]; // Optional array of generic image URLs
   interiorGalleries?: InteriorGallery[]; // Specific interior renders grouped by type
+  amenitiesGallery?: string[]; // Specific amenities images
   units?: UnitVariant[]; // Specific unit floor plans/images
   description: string; // Formatting with newlines supported
   features: string[];

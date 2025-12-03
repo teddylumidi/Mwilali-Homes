@@ -105,7 +105,15 @@ export const MOCK_PROPERTIES: Property[] = [
     ],
     interiorGalleries: [
       {
+        title: "Typical Floor Plan",
+        badge: "Floor Plan",
+        images: [
+          "New Typical Floor Plan.jpg"
+        ]
+      },
+      {
         title: "1 Bedroom Interior Renders",
+        badge: "Interior Render",
         images: [
           "2510251BR INTERIOR RENDERS-1.jpg",
           "2510251BR INTERIOR RENDERS-2.jpg",
@@ -117,6 +125,7 @@ export const MOCK_PROPERTIES: Property[] = [
       },
       {
         title: "3 Bedroom Interior Renders",
+        badge: "Interior Render",
         images: [
           "251025 3BR INTERIOR RENDERS-01.jpg",
           "251025 3BR INTERIOR RENDERS-02.jpg",
@@ -146,74 +155,30 @@ export const MOCK_PROPERTIES: Property[] = [
         ]
       }
     ],
-    features: ['Outdoor Pool', 'Paddle Court', 'Fitness Center', 'Café', 'Children’s Play Area', 'Cinema', 'Sauna', 'UN-Standard Security', 'Landscaped Gardens'],
-    coordinates: { lat: -1.2635, lng: 36.8024 }
-  },
-  {
-    id: 'oak-breeze',
-    title: 'Oak Breeze',
-    price: 5650000,
-    priceLabel: 'From KES 5.65M',
-    address: 'Kilimani, Near Yaya Center',
-    city: 'Kilimani',
-    state: 'Nairobi',
-    beds: 1,
-    baths: 1,
-    sqft: 45,
-    type: 'Apartment',
-    category: 'Sale',
-    imageUrl: 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
-    description: `ELEVATING URBAN LIVING TO NEW HEIGHTS.
-    
-    Oak Breeze redefines skyline living in Kilimani with modern architecture and functional design. Perfect for investors and homeowners alike.
-    
-    UNIT OPTIONS & PRICING:
-    • Mini 1 Bed (45 sqm) – From KES 5.65M
-    • 1 Bed (50 sqm) – From KES 6.25M
-    • 2 Bed (91 sqm) – From KES 11.4M
-    
-    AMENITIES & LIFESTYLE:
-    Enjoy a rooftop pool with panoramic views, fully equipped gym, and convenience at your doorstep.
-    
-    LOCATION HIGHLIGHTS:
-    Close to TDB Tower, CJ’s Kilimani Branch, Yaya Center, Kilimani Primary School, Naivas & Karibu Square, Nairobi Hospital, and the CBD.`,
-    features: ['Rooftop Pool & Garden', 'Gym', 'Minimart', 'Coffee Lounge', 'Conference Room', 'Indoor Kids Play Area', 'Spa', 'Backup Generator', 'Borehole Water', '3 Lifts per Block'],
-    coordinates: { lat: -1.2921, lng: 36.7866 }
-  },
-  {
-    id: 'rental-1',
-    title: 'Modern Kilimani Apartment',
-    price: 85000,
-    priceLabel: 'KES 85,000/mo',
-    address: 'Argwings Kodhek Rd',
-    city: 'Kilimani',
-    state: 'Nairobi',
-    beds: 2,
-    baths: 2,
-    sqft: 1100,
-    type: 'Apartment',
-    category: 'Rent',
-    imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-    description: 'Spacious 2-bedroom apartment with master ensuite. Open plan kitchen, large balcony, and high-speed lifts. Gym and pool access included.',
-    features: ['Gym', 'Pool', 'High Speed Lifts', 'Backup Generator', '24hr Security'],
-    coordinates: { lat: -1.2900, lng: 36.7900 }
-  },
-  {
-    id: 'rental-2',
-    title: 'Executive Furnished Studio',
-    price: 60000,
-    priceLabel: 'KES 60,000/mo',
-    address: 'Riverside Drive',
-    city: 'Westlands',
-    state: 'Nairobi',
-    beds: 1,
-    baths: 1,
-    sqft: 400,
-    type: 'Studio',
-    category: 'Rent',
-    imageUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
-    description: 'Beautifully furnished studio apartment suitable for expatriates. Quiet neighborhood, lush gardens, and easy access to Westlands CBD.',
-    features: ['Fully Furnished', 'Garden', 'Quiet Area', 'Parking', 'WiFi Ready'],
-    coordinates: { lat: -1.2700, lng: 36.8000 }
+    amenitiesGallery: [
+      "251025 AMENITIES-01.jpg",
+      "251025 AMENITIES-02.jpg",
+      "251025 AMENITIES-03.jpg",
+      "251025 AMENITIES-04.jpg",
+      "251025 AMENITIES-05.jpg",
+      "251025 AMENITIES-06.jpg",
+      "251025 AMENITIES-07.jpg",
+      "251025 AMENITIES-08.jpg",
+      "251025 AMENITIES-09.jpg"
+    ],
+    features: [
+      "UN Standard Security",
+      "Backup Generator",
+      "Borehole",
+      "High Speed Lifts",
+      "CCTV Surveillance",
+      "Solar Water Heating",
+      "Fully Equipped Gym",
+      "Kids Play Area"
+    ],
+    coordinates: {
+      lat: -1.263567,
+      lng: 36.802673
+    }
   }
 ];

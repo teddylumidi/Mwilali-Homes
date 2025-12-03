@@ -217,7 +217,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
 
               <div>
                 <h3 className="text-xl font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">Amenities & Features</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                   {property.features.map((feature, idx) => (
                     <div key={idx} className="flex items-center text-gray-700 bg-white p-3 rounded border border-gray-100">
                       <Check size={18} className="text-accent mr-3 shrink-0" />
@@ -225,10 +225,34 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                     </div>
                   ))}
                 </div>
+
+                {/* Amenities Gallery Grid */}
+                {property.amenitiesGallery && property.amenitiesGallery.length > 0 && (
+                  <div>
+                    <h4 className="text-lg font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">{property.title} Amenities Gallery</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {property.amenitiesGallery.map((img, idx) => (
+                        <div key={idx} className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer shadow-sm border border-gray-100 group/amenity relative" onClick={() => setZoomedImage(img)}>
+                          <img 
+                            src={img} 
+                            alt={`Amenity ${idx + 1}`} 
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover/amenity:scale-110"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = 'https://placehold.co/400x400?text=Amenity';
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover/amenity:bg-black/10 transition-colors flex items-center justify-center">
+                            <ZoomIn className="text-white opacity-0 group-hover/amenity:opacity-100 transform scale-75 group-hover/amenity:scale-100 transition-all drop-shadow-md" size={24}/>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Legacy Gallery (Fallback) */}
-              {(!property.units && !property.interiorGalleries) && property.gallery && property.gallery.length > 0 && (
+              {(!property.units && !property.interiorGalleries && !property.amenitiesGallery) && property.gallery && property.gallery.length > 0 && (
                 <div>
                   <h3 className="text-xl font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">Gallery</h3>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
