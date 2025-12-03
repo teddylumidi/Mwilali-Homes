@@ -7,5 +7,13 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor libraries into separate chunks for better caching
+          vendor: ['react', 'react-dom', 'lucide-react'],
+        },
+      },
+    },
   }
 });

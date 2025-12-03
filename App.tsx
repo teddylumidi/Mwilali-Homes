@@ -229,6 +229,12 @@ const App: React.FC = () => {
                 <div className="absolute inset-0">
                     <img 
                         src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
+                        srcSet="
+                          https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=80 640w,
+                          https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80 1024w,
+                          https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80 1950w
+                        "
+                        sizes="100vw"
                         alt="Luxury Real Estate Nairobi" 
                         className="w-full h-full object-cover"
                         fetchPriority="high"
