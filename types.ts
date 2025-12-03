@@ -1,3 +1,11 @@
+export interface UnitVariant {
+  name: string;
+  size: string;
+  price: string;
+  image: string;
+  type: string;
+}
+
 export interface Property {
   id: string;
   title: string;
@@ -12,6 +20,8 @@ export interface Property {
   type: 'Apartment' | 'Villa' | 'Penthouse' | 'Studio';
   category: 'Sale' | 'Rent';
   imageUrl: string;
+  gallery?: string[]; // Optional array of generic image URLs
+  units?: UnitVariant[]; // Specific unit floor plans/images
   description: string; // Formatting with newlines supported
   features: string[];
   coordinates: {

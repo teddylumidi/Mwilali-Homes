@@ -19,16 +19,90 @@ export const MOCK_PROPERTIES: Property[] = [
     
     Experience luxury living in the heart of Westlands. Brookside Oak offers premium residences with UN-standard security and world-class amenities.
     
-    UNIT OPTIONS & PRICING:
-    • Classic 1 Br (65㎡) – From KES 8.8M
-    • Premier 1 Br (75㎡) – From KES 10M
-    • Executive 2 Br – Inquire for pricing
-    
     PAYMENT PLAN:
     Flexible payment plans available with construction period estimates provided upon inquiry. Secure your space today with an early booking discount.
     
     LOCATION HIGHLIGHTS:
     Located near Safaricom HQ, Sarit Centre, MP Shah Hospital, Nairobi International School, Village Market, and the United Nations Office.`,
+    units: [
+      {
+        name: "Classic 1 Bedroom",
+        size: "65 sqm",
+        price: "KES 8.8M",
+        type: "1 Bedroom",
+        image: "1BR 65SQM.jpg"
+      },
+      {
+        name: "Standard 1 Bedroom",
+        size: "70 sqm",
+        price: "Inquire for Price",
+        type: "1 Bedroom",
+        image: "1BR 70SQM.jpg"
+      },
+      {
+        name: "Premier 1 Bedroom",
+        size: "75 sqm",
+        price: "KES 10.0M",
+        type: "1 Bedroom",
+        image: "1BR 75SQM.jpg"
+      },
+      {
+        name: "Luxury 1 Bedroom",
+        size: "89 sqm",
+        price: "Inquire for Price",
+        type: "1 Bedroom",
+        image: "1BR 89SQM.jpg"
+      },
+      {
+        name: "Executive 2 Bedroom",
+        size: "100 sqm",
+        price: "Inquire for Price",
+        type: "2 Bedroom",
+        image: "2BR 100SQM.jpg"
+      },
+      {
+        name: "Premier 2 Bedroom",
+        size: "118 sqm",
+        price: "Inquire for Price",
+        type: "2 Bedroom",
+        image: "2BR 118SQM.jpg"
+      },
+      {
+        name: "Family 3 Bedroom",
+        size: "142 sqm",
+        price: "Inquire for Price",
+        type: "3 Bedroom",
+        image: "3BR 142SQM.jpg"
+      },
+      {
+        name: "Grand 3 Bedroom",
+        size: "172 sqm",
+        price: "Inquire for Price",
+        type: "3 Bedroom",
+        image: "3BR 172SQM.jpg"
+      },
+      {
+        name: "Luxury 3 Bedroom",
+        size: "186 sqm",
+        price: "Inquire for Price",
+        type: "3 Bedroom",
+        image: "3BR 186SQM.jpg"
+      },
+      {
+        name: "Penthouse Type A",
+        size: "200 sqm",
+        price: "Inquire for Price",
+        type: "Penthouse",
+        image: "3BR 200SQM (3)-1.jpg"
+      },
+      {
+        name: "Penthouse Type B",
+        size: "200 sqm",
+        price: "Inquire for Price",
+        type: "Penthouse",
+        image: "3BR 200SQM (7)-1.jpg"
+      }
+    ],
     features: ['Outdoor Pool', 'Paddle Court', 'Fitness Center', 'Café', 'Children’s Play Area', 'Cinema', 'Sauna', 'UN-Standard Security', 'Landscaped Gardens'],
     coordinates: { lat: -1.2635, lng: 36.8024 }
   },
