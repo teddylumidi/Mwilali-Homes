@@ -1,6 +1,7 @@
 import React from 'react';
 import { Property } from '../types';
 import { Bed, Bath, Square, MapPin, ArrowRight } from 'lucide-react';
+import { ImageWithSkeleton } from './ImageWithSkeleton';
 
 interface PropertyCardProps {
   property: Property;
@@ -13,23 +14,20 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
       className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden border border-gray-100 flex flex-col h-full"
       onClick={() => onClick(property)}
     >
-      <div className="relative h-64 overflow-hidden">
-        <img 
+      <div className="relative h-64 overflow-hidden bg-gray-100">
+        <ImageWithSkeleton 
           src={property.imageUrl} 
           alt={property.title} 
           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
           loading="lazy"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = `https://placehold.co/600x400/f3f4f6/9ca3af?text=${encodeURIComponent(property.title)}`;
-          }}
         />
-        <div className={`absolute top-4 left-4 px-3 py-1 rounded-sm text-xs font-bold uppercase tracking-wider text-white shadow-sm ${property.category === 'Sale' ? 'bg-accent' : 'bg-primary'}`}>
+        <div className={`absolute top-4 left-4 px-3 py-1 rounded-sm text-xs font-bold uppercase tracking-wider text-white shadow-sm z-20 ${property.category === 'Sale' ? 'bg-accent' : 'bg-primary'}`}>
           For {property.category}
         </div>
-        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-sm text-xs font-semibold uppercase tracking-wider text-primary">
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-sm text-xs font-semibold uppercase tracking-wider text-primary z-20">
           {property.type}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 z-20">
           <p className="text-white font-bold text-xl font-serif">
             {property.priceLabel || `KES ${property.price.toLocaleString()}`}
           </p>

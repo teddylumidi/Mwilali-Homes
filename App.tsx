@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { MOCK_PROPERTIES } from './constants';
 import { Property } from './types';
 import { PropertyCard } from './components/PropertyCard';
+import { SkeletonPropertyCard } from './components/SkeletonPropertyCard';
 import { PropertyModal } from './components/PropertyModal';
 import { Search, MapPin, Menu, X, Phone, Mail, ArrowRight, Home, CheckCircle2 } from 'lucide-react';
 
@@ -41,6 +41,7 @@ const App: React.FC = () => {
   const [displayedProperties, setDisplayedProperties] = useState<Property[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -55,15 +56,21 @@ const App: React.FC = () => {
 
   // Filter properties when view changes
   useEffect(() => {
-    if (currentView === 'sale') {
-      setDisplayedProperties(allProperties.filter(p => p.category === 'Sale'));
-    } else if (currentView === 'rent') {
-      setDisplayedProperties(allProperties.filter(p => p.category === 'Rent'));
-    } else {
-      setDisplayedProperties(allProperties); // Home might show featured
-    }
-    setSearchQuery('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsLoading(true);
+    // Simulate network delay for smooth skeleton effect
+    const timer = setTimeout(() => {
+      if (currentView === 'sale') {
+        setDisplayedProperties(allProperties.filter(p => p.category === 'Sale'));
+      } else if (currentView === 'rent') {
+        setDisplayedProperties(allProperties.filter(p => p.category === 'Rent'));
+      } else {
+        setDisplayedProperties(allProperties); // Home might show featured
+      }
+      setSearchQuery('');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setIsLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
   }, [currentView, allProperties]);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -71,19 +78,23 @@ const App: React.FC = () => {
     if (!searchQuery.trim()) return;
 
     setIsSearching(true);
+    setIsLoading(true);
     setCurrentView('sale'); // Redirect to listing view on search
 
-    // Local filter logic replacing AI search
-    const lowerQuery = searchQuery.toLowerCase();
-    const filtered = allProperties.filter(p => 
-      p.title.toLowerCase().includes(lowerQuery) ||
-      p.city.toLowerCase().includes(lowerQuery) ||
-      p.description.toLowerCase().includes(lowerQuery) ||
-      p.address.toLowerCase().includes(lowerQuery)
-    );
-      
-    setDisplayedProperties(filtered);
-    setIsSearching(false);
+    setTimeout(() => {
+      // Local filter logic replacing AI search
+      const lowerQuery = searchQuery.toLowerCase();
+      const filtered = allProperties.filter(p => 
+        p.title.toLowerCase().includes(lowerQuery) ||
+        p.city.toLowerCase().includes(lowerQuery) ||
+        p.description.toLowerCase().includes(lowerQuery) ||
+        p.address.toLowerCase().includes(lowerQuery)
+      );
+        
+      setDisplayedProperties(filtered);
+      setIsSearching(false);
+      setIsLoading(false);
+    }, 800);
   };
 
   const handleContactSubmit = (e: React.FormEvent) => {
@@ -334,9 +345,16 @@ const App: React.FC = () => {
                     </div>
                     
                     <div className="grid md:grid-cols-2 gap-8">
-                        {allProperties.filter(p => p.category === 'Sale').map(property => (
-                            <PropertyCard key={property.id} property={property} onClick={setSelectedProperty} />
-                        ))}
+                        {isLoading ? (
+                           <>
+                             <SkeletonPropertyCard />
+                             <SkeletonPropertyCard />
+                           </>
+                        ) : (
+                          allProperties.filter(p => p.category === 'Sale').map(property => (
+                              <PropertyCard key={property.id} property={property} onClick={setSelectedProperty} />
+                          ))
+                        )}
                     </div>
                     
                     <button 
@@ -395,20 +413,29 @@ const App: React.FC = () => {
                     {currentView === 'sale' ? 'Properties For Sale' : 'Properties For Rent'}
                 </h2>
                 <p className="text-gray-500 mt-2">
-                    {displayedProperties.length} listings found
+                    {isLoading ? 'Searching...' : `${displayedProperties.length} listings found`}
                 </p>
             </div>
             
-            {displayedProperties.length > 0 ? (
+            {isLoading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {displayedProperties.map(property => (
-                        <PropertyCard key={property.id} property={property} onClick={setSelectedProperty} />
-                    ))}
+                    <SkeletonPropertyCard />
+                    <SkeletonPropertyCard />
+                    <SkeletonPropertyCard />
+                    <SkeletonPropertyCard />
                 </div>
             ) : (
-                <div className="text-center py-20 border-2 border-dashed border-gray-200 rounded-xl">
-                    <p className="text-gray-500">No properties found matching your criteria.</p>
-                </div>
+                displayedProperties.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {displayedProperties.map(property => (
+                            <PropertyCard key={property.id} property={property} onClick={setSelectedProperty} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-20 border-2 border-dashed border-gray-200 rounded-xl">
+                        <p className="text-gray-500">No properties found matching your criteria.</p>
+                    </div>
+                )
             )}
           </div>
         )}

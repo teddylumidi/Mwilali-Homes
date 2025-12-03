@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Property } from '../types';
 import { X, Check, MapPin, Bed, Bath, Square, Phone, Mail, ChevronLeft, ChevronRight, ZoomIn, LayoutGrid, LayoutList } from 'lucide-react';
+import { ImageWithSkeleton } from './ImageWithSkeleton';
 
 interface PropertyModalProps {
   property: Property | null;
@@ -77,19 +78,19 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
       <div className="relative bg-white rounded-none sm:rounded-lg shadow-2xl w-full max-w-6xl max-h-[95vh] overflow-y-auto flex flex-col animate-in fade-in zoom-in duration-300 border-t-4 border-accent">
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full hover:bg-white transition-colors shadow-lg"
+          className="absolute top-4 right-4 z-30 bg-white/80 p-2 rounded-full hover:bg-white transition-colors shadow-lg"
         >
           <X size={24} className="text-gray-800" />
         </button>
 
-        <div className="h-64 sm:h-80 w-full relative shrink-0">
-          <img 
+        <div className="h-64 sm:h-80 w-full relative shrink-0 bg-gray-200">
+          <ImageWithSkeleton 
             src={property.imageUrl} 
             alt={property.title} 
             className="w-full h-full object-cover"
-            loading="lazy"
+            fetchPriority="high"
           />
-           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/90 via-primary/50 to-transparent p-6 sm:p-8">
+           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/90 via-primary/50 to-transparent p-6 sm:p-8 z-20">
              <div className="inline-block bg-accent text-white text-xs font-bold px-3 py-1 mb-3 uppercase tracking-widest">
                 For {property.category}
              </div>
@@ -167,16 +168,13 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                                   className="relative aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image" 
                                   onClick={() => openLightbox(allUnitImages, idx)}
                                 >
-                                   <img 
+                                   <ImageWithSkeleton 
                                       src={unit.image} 
                                       alt={unit.name} 
                                       className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover/image:scale-105"
                                       loading="lazy"
-                                      onError={(e) => {
-                                        (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Image+Unavailable';
-                                      }}
                                    />
-                                   <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/10 transition-colors flex items-center justify-center">
+                                   <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/10 transition-colors flex items-center justify-center z-20">
                                       <ZoomIn className="text-white opacity-0 group-hover/image:opacity-100 transform scale-75 group-hover/image:scale-100 transition-all drop-shadow-lg" size={32}/>
                                    </div>
                                 </div>
@@ -205,16 +203,13 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                               className="relative w-32 sm:w-full sm:aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image shrink-0" 
                               onClick={() => openLightbox(allUnitImages, idx)}
                             >
-                               <img 
+                               <ImageWithSkeleton 
                                   src={unit.image} 
                                   alt={unit.name} 
                                   className="w-full h-full object-contain p-2"
                                   loading="lazy"
-                                  onError={(e) => {
-                                    (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Image+Unavailable';
-                                  }}
                                />
-                               <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/10 transition-colors flex items-center justify-center">
+                               <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/10 transition-colors flex items-center justify-center z-20">
                                   <ZoomIn className="text-white opacity-0 group-hover/image:opacity-100 transform scale-75 group-hover/image:scale-100 transition-all drop-shadow-lg" size={24}/>
                                </div>
                             </div>
@@ -244,19 +239,16 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                                 className="relative aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image" 
                                 onClick={() => openLightbox(gallery.images, idx)}
                               >
-                                 <img 
+                                 <ImageWithSkeleton 
                                     src={img} 
                                     alt={`${gallery.title} ${idx + 1}`} 
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover/image:scale-105"
                                     loading="lazy"
-                                    onError={(e) => {
-                                      (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Image+Unavailable';
-                                    }}
                                  />
-                                 <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/10 transition-colors flex items-center justify-center">
+                                 <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/10 transition-colors flex items-center justify-center z-20">
                                     <ZoomIn className="text-white opacity-0 group-hover/image:opacity-100 transform scale-75 group-hover/image:scale-100 transition-all drop-shadow-lg" size={32}/>
                                  </div>
-                                 <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm shadow-sm">
+                                 <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm shadow-sm z-20">
                                     {gallery.badge || 'Image'}
                                  </div>
                               </div>
@@ -304,16 +296,13 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                           className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer shadow-sm border border-gray-100 group/amenity relative" 
                           onClick={() => openLightbox(property.amenitiesGallery!, idx)}
                         >
-                          <img 
+                          <ImageWithSkeleton 
                             src={img} 
                             alt={`Amenity ${idx + 1}`} 
                             className="w-full h-full object-cover transition-transform duration-500 group-hover/amenity:scale-110"
                             loading="lazy"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = 'https://placehold.co/400x400?text=Amenity';
-                            }}
                           />
-                          <div className="absolute inset-0 bg-black/0 group-hover/amenity:bg-black/10 transition-colors flex items-center justify-center">
+                          <div className="absolute inset-0 bg-black/0 group-hover/amenity:bg-black/10 transition-colors flex items-center justify-center z-20">
                             <ZoomIn className="text-white opacity-0 group-hover/amenity:opacity-100 transform scale-75 group-hover/amenity:scale-100 transition-all drop-shadow-md" size={24}/>
                           </div>
                         </div>
@@ -331,10 +320,10 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                     {property.gallery.map((img, idx) => (
                       <div 
                         key={idx} 
-                        className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer" 
+                        className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer relative" 
                         onClick={() => openLightbox(property.gallery!, idx)}
                       >
-                        <img 
+                        <ImageWithSkeleton 
                           src={img} 
                           alt={`Gallery ${idx}`} 
                           className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" 

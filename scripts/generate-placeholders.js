@@ -2,6 +2,11 @@
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
+import { fileURLToPath } from 'url';
+
+// ES Module fix for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 
@@ -11,7 +16,9 @@ if (!fs.existsSync(PUBLIC_DIR)) {
   console.log('Created public directory');
 }
 
-// List of all required filenames based on the comprehensive mixed list and requirements
+// List of all required filenames.
+// NOTE: We strip the leading "./" if present before creating files, 
+// as the code in constants.ts now uses "./" for relative web path resolution.
 const files = [
   // --- LOGOS ---
   "logo.png",
@@ -49,7 +56,6 @@ const files = [
   ...Array.from({length: 18}, (_, i) => `251025 AMENITIES-${String(i + 1).padStart(2, '0')}.jpg`),
   
   // --- BROOKSIDE OAK 1BR INTERIORS (1-6) ---
-  // Note: Filename format '2510251BR' as per user specification
   ...Array.from({length: 6}, (_, i) => `2510251BR INTERIOR RENDERS-${i + 1}.jpg`),
   
   // --- BROOKSIDE OAK FLOOR PLAN ---
@@ -60,7 +66,9 @@ const files = [
 ];
 
 // Helper to download a dummy image
-const downloadPlaceholder = (filename) => {
+const downloadPlaceholder = (rawFilename) => {
+  // Strip leading "./" if present
+  const filename = rawFilename.startsWith('./') ? rawFilename.substring(2) : rawFilename;
   const filePath = path.join(PUBLIC_DIR, filename);
   
   // Skip if exists
@@ -123,5 +131,5 @@ files.forEach(file => {
   setTimeout(() => {
     downloadPlaceholder(file);
   }, delay);
-  delay += 50; // 50ms delay between each to be polite to placehold.co
+  delay += 50; 
 });
