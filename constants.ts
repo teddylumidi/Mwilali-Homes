@@ -114,6 +114,36 @@ export const MOCK_PROPERTIES: Property[] = [
           "2510251BR INTERIOR RENDERS-5.jpg",
           "2510251BR INTERIOR RENDERS-6.jpg"
         ]
+      },
+      {
+        title: "3 Bedroom Interior Renders",
+        images: [
+          "251025 3BR INTERIOR RENDERS-01.jpg",
+          "251025 3BR INTERIOR RENDERS-02.jpg",
+          "251025 3BR INTERIOR RENDERS-03.jpg",
+          "251025 3BR INTERIOR RENDERS-04.jpg",
+          "251025 3BR INTERIOR RENDERS-05.jpg",
+          "251025 3BR INTERIOR RENDERS-06.jpg",
+          "251025 3BR INTERIOR RENDERS-07.jpg",
+          "251025 3BR INTERIOR RENDERS-08.jpg",
+          "251025 3BR INTERIOR RENDERS-09.jpg",
+          "251025 3BR INTERIOR RENDERS-10.jpg",
+          "251025 3BR INTERIOR RENDERS-11.jpg",
+          "251025 3BR INTERIOR RENDERS-12.jpg",
+          "251025 3BR INTERIOR RENDERS-13.jpg",
+          "251025 3BR INTERIOR RENDERS-14.jpg",
+          "251025 3BR INTERIOR RENDERS-15.jpg",
+          "251025 3BR INTERIOR RENDERS-16.jpg",
+          "251025 3BR INTERIOR RENDERS-17.jpg",
+          "251025 3BR INTERIOR RENDERS-18.jpg",
+          "251025 3BR INTERIOR RENDERS-19.jpg",
+          "251025 3BR INTERIOR RENDERS-20.jpg",
+          "251025 3BR INTERIOR RENDERS-21.jpg",
+          "251025 3BR INTERIOR RENDERS-22.jpg",
+          "251025 3BR INTERIOR RENDERS-23.jpg",
+          "251025 3BR INTERIOR RENDERS-24.jpg",
+          "251025 3BR INTERIOR RENDERS-25.jpg"
+        ]
       }
     ],
     features: ['Outdoor Pool', 'Paddle Court', 'Fitness Center', 'Café', 'Children’s Play Area', 'Cinema', 'Sauna', 'UN-Standard Security', 'Landscaped Gardens'],
