@@ -49,6 +49,7 @@ const files = [
   ...Array.from({length: 18}, (_, i) => `251025 AMENITIES-${String(i + 1).padStart(2, '0')}.jpg`),
   
   // --- BROOKSIDE OAK 1BR INTERIORS (1-6) ---
+  // Note: Filename format '2510251BR' as per user specification
   ...Array.from({length: 6}, (_, i) => `2510251BR INTERIOR RENDERS-${i + 1}.jpg`),
   
   // --- BROOKSIDE OAK FLOOR PLAN ---
@@ -67,18 +68,38 @@ const downloadPlaceholder = (filename) => {
     return;
   }
 
-  // Create a simple placeholder from placehold.co
-  const text = filename.replace('.jpg', '').replace('.png', '').substring(0, 20); // Shorten text
+  // Determine text and dimensions
+  const text = filename.replace('.jpg', '').replace('.png', '').substring(0, 25);
   
-  // Different color for logo
-  let bg = 'EEE';
-  let fg = '31343C';
-  if (filename.includes('logo')) {
-    bg = filename.includes('white') ? '333' : 'FFF';
-    fg = filename.includes('white') ? 'FFF' : '000';
+  // Dimensions: Default Landscape
+  let width = 800;
+  let height = 600;
+
+  // Brochure pages are usually portrait
+  if (filename.toLowerCase().includes('brochure')) {
+    width = 600;
+    height = 850;
   }
 
-  const url = `https://placehold.co/800x600/${bg}/${fg}/png?text=${encodeURIComponent(text)}`;
+  // Logos
+  if (filename.includes('logo')) {
+    width = 400;
+    height = 100;
+  }
+
+  // Colors
+  let bg = 'e2e8f0'; // slate-200
+  let fg = '475569'; // slate-600
+  
+  if (filename.includes('logo')) {
+    bg = filename.includes('white') ? '1a202c' : 'ffffff';
+    fg = filename.includes('white') ? 'ffffff' : '1a202c';
+  } else if (filename.includes('Oak_Breeze')) {
+    bg = 'fdfbf7'; // Cream
+    fg = 'c05621'; // Accent
+  }
+
+  const url = `https://placehold.co/${width}x${height}/${bg}/${fg}/png?text=${encodeURIComponent(text)}`;
 
   const file = fs.createWriteStream(filePath);
   
@@ -102,5 +123,5 @@ files.forEach(file => {
   setTimeout(() => {
     downloadPlaceholder(file);
   }, delay);
-  delay += 50; // 50ms delay between each
+  delay += 50; // 50ms delay between each to be polite to placehold.co
 });

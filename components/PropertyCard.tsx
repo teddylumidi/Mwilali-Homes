@@ -18,6 +18,10 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
           src={property.imageUrl} 
           alt={property.title} 
           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+          loading="lazy"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = `https://placehold.co/600x400/f3f4f6/9ca3af?text=${encodeURIComponent(property.title)}`;
+          }}
         />
         <div className={`absolute top-4 left-4 px-3 py-1 rounded-sm text-xs font-bold uppercase tracking-wider text-white shadow-sm ${property.category === 'Sale' ? 'bg-accent' : 'bg-primary'}`}>
           For {property.category}
