@@ -103,6 +103,19 @@ export const MOCK_PROPERTIES: Property[] = [
         image: "3BR 200SQM (7)-1.jpg"
       }
     ],
+    interiorGalleries: [
+      {
+        title: "1 Bedroom Interior Renders",
+        images: [
+          "2510251BR INTERIOR RENDERS-1.jpg",
+          "2510251BR INTERIOR RENDERS-2.jpg",
+          "2510251BR INTERIOR RENDERS-3.jpg",
+          "2510251BR INTERIOR RENDERS-4.jpg",
+          "2510251BR INTERIOR RENDERS-5.jpg",
+          "2510251BR INTERIOR RENDERS-6.jpg"
+        ]
+      }
+    ],
     features: ['Outdoor Pool', 'Paddle Court', 'Fitness Center', 'Café', 'Children’s Play Area', 'Cinema', 'Sauna', 'UN-Standard Security', 'Landscaped Gardens'],
     coordinates: { lat: -1.2635, lng: 36.8024 }
   },

@@ -167,6 +167,47 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                 </div>
               )}
 
+              {/* Interior Galleries Section */}
+              {property.interiorGalleries && property.interiorGalleries.map((gallery, gIdx) => (
+                <div key={gIdx} className="mt-8">
+                   <h3 className="text-xl font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">
+                      {gallery.title}
+                   </h3>
+                   <div className="relative group/carousel">
+                      <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
+                        {gallery.images.map((img, idx) => (
+                           <div key={idx} className="snap-center shrink-0 w-[280px] sm:w-[320px] bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden">
+                              <div className="relative aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image" onClick={() => setZoomedImage(img)}>
+                                 <img 
+                                    src={img} 
+                                    alt={`${gallery.title} ${idx + 1}`} 
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover/image:scale-105"
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Image+Unavailable';
+                                    }}
+                                 />
+                                 <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/10 transition-colors flex items-center justify-center">
+                                    <ZoomIn className="text-white opacity-0 group-hover/image:opacity-100 transform scale-75 group-hover/image:scale-100 transition-all drop-shadow-lg" size={32}/>
+                                 </div>
+                                 <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm shadow-sm">
+                                    Interior Render
+                                 </div>
+                              </div>
+                              <div className="p-3 bg-white border-t border-gray-50 text-center">
+                                <p className="text-sm font-semibold text-gray-700">View {idx + 1}</p>
+                              </div>
+                           </div>
+                        ))}
+                      </div>
+                      {gallery.images.length > 2 && (
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white/80 p-2 rounded-full shadow-lg md:hidden pointer-events-none">
+                            <ChevronRight size={24} className="text-accent animate-pulse"/>
+                        </div>
+                      )}
+                   </div>
+                </div>
+              ))}
+
               <div>
                 <h3 className="text-xl font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">Property Details</h3>
                 <div className="text-gray-700 leading-relaxed text-base whitespace-pre-line bg-white p-6 rounded-lg shadow-sm border border-gray-100">
@@ -186,8 +227,8 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                 </div>
               </div>
 
-              {/* Legacy Gallery (Fallback if no units defined but gallery exists) */}
-              {!property.units && property.gallery && property.gallery.length > 0 && (
+              {/* Legacy Gallery (Fallback) */}
+              {(!property.units && !property.interiorGalleries) && property.gallery && property.gallery.length > 0 && (
                 <div>
                   <h3 className="text-xl font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">Gallery</h3>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

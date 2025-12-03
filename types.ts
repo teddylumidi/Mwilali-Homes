@@ -6,6 +6,11 @@ export interface UnitVariant {
   type: string;
 }
 
+export interface InteriorGallery {
+  title: string;
+  images: string[];
+}
+
 export interface Property {
   id: string;
   title: string;
@@ -21,6 +26,7 @@ export interface Property {
   category: 'Sale' | 'Rent';
   imageUrl: string;
   gallery?: string[]; // Optional array of generic image URLs
+  interiorGalleries?: InteriorGallery[]; // Specific interior renders grouped by type
   units?: UnitVariant[]; // Specific unit floor plans/images
   description: string; // Formatting with newlines supported
   features: string[];
