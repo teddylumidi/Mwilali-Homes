@@ -9,34 +9,27 @@ import { Search, MapPin, Menu, X, Phone, Mail, ArrowRight, Home, CheckCircle2 } 
 type View = 'home' | 'about' | 'sale' | 'rent' | 'contact';
 
 const MwalaliLogo = ({ className = "", variant = "light" }: { className?: string, variant?: "light" | "dark" }) => {
-  // variant light = dark text (for light background)
-  // variant dark = light text (for dark background)
-  const primaryColor = variant === "light" ? "#1a202c" : "#ffffff";
-  const accentColor = "#c05621";
+  // variant='light' means the background is light, so we generally want the standard colored/dark logo.
+  // variant='dark' means the background is dark (like footer), so we want the white logo.
+  
+  const logoSrc = variant === "light" ? "./logo.png" : "./logo-white.png";
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      {/* SVG Icon */}
-      <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
-         {/* Left Arc (Black/Primary) */}
-        <path d="M50 5 A 45 45 0 0 0 50 95" stroke={primaryColor} strokeWidth="3" strokeLinecap="round" fill="none"/>
-        
-        {/* Right Arc (Gold/Accent) */}
-        <path d="M50 95 A 45 45 0 0 0 50 5" stroke={accentColor} strokeWidth="3" strokeLinecap="round" fill="none"/>
-
-        {/* M (Black/Primary) */}
-        <path d="M28 35V65L48 48" stroke={primaryColor} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-        
-        {/* H (Gold/Accent) */}
-        <path d="M56 35V65" stroke={accentColor} strokeWidth="4" strokeLinecap="round"/>
-        <path d="M72 35V65" stroke={accentColor} strokeWidth="4" strokeLinecap="round"/>
-        <path d="M56 50H72" stroke={accentColor} strokeWidth="4" strokeLinecap="round"/>
-      </svg>
-      
-      {/* Text */}
-      <div className="flex flex-col justify-center">
-        <span className="font-serif font-bold text-2xl leading-none tracking-wide" style={{ color: primaryColor }}>MWALALI</span>
-        <span className="font-sans font-bold text-[0.6rem] tracking-[0.38em] uppercase mt-0.5 ml-0.5" style={{ color: accentColor }}>HOMES</span>
+      <img 
+        src={logoSrc}
+        alt="Mwalali Homes"
+        className="h-14 w-auto object-contain"
+        onError={(e) => {
+          // Fallback if image doesn't exist yet - useful during development
+          (e.target as HTMLImageElement).style.display = 'none';
+          (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+        }}
+      />
+      {/* Fallback Text if Image Fails */}
+      <div className="hidden flex-col justify-center">
+        <span className={`font-serif font-bold text-2xl leading-none tracking-wide ${variant === 'light' ? 'text-primary' : 'text-white'}`}>MWALALI</span>
+        <span className="font-sans font-bold text-[0.6rem] tracking-[0.38em] uppercase mt-0.5 ml-0.5 text-accent">HOMES</span>
       </div>
     </div>
   );
@@ -185,7 +178,7 @@ const App: React.FC = () => {
                 className="cursor-pointer" 
                 onClick={() => setCurrentView('home')}
             >
-              <MwalaliLogo />
+              <MwalaliLogo variant="light" />
             </div>
             
             {/* Desktop Nav */}
@@ -238,6 +231,7 @@ const App: React.FC = () => {
                         src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
                         alt="Luxury Real Estate Nairobi" 
                         className="w-full h-full object-cover"
+                        fetchPriority="high"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
                 </div>
@@ -369,6 +363,7 @@ const App: React.FC = () => {
                     src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
                     alt="Nairobi Skyline" 
                     className="w-full h-64 object-cover rounded-lg my-8 shadow-xl"
+                    loading="lazy"
                 />
                 <h3>Why Choose Us?</h3>
                 <ul className="list-disc pl-5 space-y-2 mt-4">

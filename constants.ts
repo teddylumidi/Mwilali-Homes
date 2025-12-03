@@ -15,7 +15,7 @@ export const MOCK_PROPERTIES: Property[] = [
     sqft: 65,
     type: 'Apartment',
     category: 'Sale',
-    imageUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+    imageUrl: '1BR 65SQM.jpg', // Using unit image as hero for now as per availability
     description: `A PREMIER PROJECT BY OAK DEVELOPERS.
     
     Experience luxury living in the heart of Westlands. Brookside Oak offers premium residences with UN-standard security and world-class amenities.
@@ -204,7 +204,7 @@ export const MOCK_PROPERTIES: Property[] = [
     sqft: 45,
     type: 'Apartment',
     category: 'Sale',
-    imageUrl: 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+    imageUrl: '1BR 45SQM-1.jpg',
     description: `ELEVATING URBAN LIVING TO NEW HEIGHTS.
     
     Oak Breeze redefines skyline living in Kilimani. A perfect blend of luxury and convenience, located just minutes from Yaya Center and CBD.

@@ -11,8 +11,12 @@ if (!fs.existsSync(PUBLIC_DIR)) {
   console.log('Created public directory');
 }
 
-// List of all required filenames based on the comprehensive mixed list
+// List of all required filenames based on the comprehensive mixed list and requirements
 const files = [
+  // --- LOGOS ---
+  "logo.png",
+  "logo-white.png",
+
   // --- OAK BREEZE UNIT SERIES ---
   ...Array.from({length: 6}, (_, i) => `1BR 45SQM-${i + 1}.jpg`),
   ...Array.from({length: 5}, (_, i) => `1BR 50SQM-${i + 1}.jpg`),
@@ -64,8 +68,17 @@ const downloadPlaceholder = (filename) => {
   }
 
   // Create a simple placeholder from placehold.co
-  const text = filename.replace('.jpg', '').substring(0, 20); // Shorten text
-  const url = `https://placehold.co/800x600/EEE/31343C/png?text=${encodeURIComponent(text)}`;
+  const text = filename.replace('.jpg', '').replace('.png', '').substring(0, 20); // Shorten text
+  
+  // Different color for logo
+  let bg = 'EEE';
+  let fg = '31343C';
+  if (filename.includes('logo')) {
+    bg = filename.includes('white') ? '333' : 'FFF';
+    fg = filename.includes('white') ? 'FFF' : '000';
+  }
+
+  const url = `https://placehold.co/800x600/${bg}/${fg}/png?text=${encodeURIComponent(text)}`;
 
   const file = fs.createWriteStream(filePath);
   
