@@ -13,6 +13,15 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
 
   if (!property) return null;
 
+  // Helper to determine the section title based on property ID
+  const getUnitSectionTitle = (id: string) => {
+    if (id === 'oak-breeze') return 'Oak_Breeze_Residency_Brochure';
+    if (id === 'brookside-oak') return 'New Renders Floor Plan';
+    return 'Unit Options & Floor Plans';
+  };
+
+  const unitSectionTitle = getUnitSectionTitle(property.id);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
       <div 
@@ -81,9 +90,9 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                   <div className="flex items-center justify-between mb-4 border-l-4 border-accent pl-3">
                     <div>
                       <div className="text-xs text-gray-500 font-mono mb-1 uppercase tracking-tight">
-                        Mwalali Homes &gt; {property.title} &gt; New Renders Floor Plan
+                        Mwalali Homes &gt; {property.title} &gt; {unitSectionTitle}
                       </div>
-                      <h3 className="text-xl font-bold text-primary font-serif">New Renders Floor Plan</h3>
+                      <h3 className="text-xl font-bold text-primary font-serif">{unitSectionTitle}</h3>
                     </div>
                     <div className="flex bg-gray-100 rounded-lg p-1 gap-1">
                       <button 
@@ -190,7 +199,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                                     <ZoomIn className="text-white opacity-0 group-hover/image:opacity-100 transform scale-75 group-hover/image:scale-100 transition-all drop-shadow-lg" size={32}/>
                                  </div>
                                  <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm shadow-sm">
-                                    Interior Render
+                                    {gallery.badge || 'Image'}
                                  </div>
                               </div>
                               <div className="p-3 bg-white border-t border-gray-50 text-center">

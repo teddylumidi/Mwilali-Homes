@@ -180,5 +180,105 @@ export const MOCK_PROPERTIES: Property[] = [
       lat: -1.263567,
       lng: 36.802673
     }
+  },
+  {
+    id: 'oak-breeze',
+    title: 'Oak Breeze',
+    price: 5650000,
+    priceLabel: 'From KES 5.65M',
+    address: 'Kilimani, Near Yaya Center',
+    city: 'Kilimani',
+    state: 'Nairobi',
+    beds: 1,
+    baths: 1,
+    sqft: 45,
+    type: 'Apartment',
+    category: 'Sale',
+    imageUrl: 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+    description: `ELEVATING URBAN LIVING TO NEW HEIGHTS.
+    
+    Oak Breeze redefines skyline living in Kilimani. A perfect blend of luxury and convenience, located just minutes from Yaya Center and CBD.
+    
+    AMENITIES:
+    Rooftop pool & garden, fully equipped gym, minimart, coffee lounge, conference room, indoor kids play area, spa, and borehole water.
+    
+    LOCATION:
+    Close to TDB Tower, CJ’s Kilimani Branch, Yaya Center, Kilimani Primary School, Naivas & Karibu Square, Nairobi Hospital, and the CBD.`,
+    units: [
+      {
+        name: "Mini 1 Bedroom",
+        size: "45 sqm",
+        price: "KES 5.65M",
+        type: "1 Bedroom",
+        image: "1BR 45SQM.jpg" 
+      },
+      {
+        name: "Standard 1 Bedroom",
+        size: "50 sqm",
+        price: "KES 6.25M",
+        type: "1 Bedroom",
+        image: "1BR 50SQM.jpg"
+      },
+      {
+        name: "Luxury 1 Bedroom",
+        size: "59 sqm",
+        price: "Inquire for Price",
+        type: "1 Bedroom",
+        image: "1BR 59SQM.jpg"
+      },
+      {
+        name: "Classic 2 Bedroom",
+        size: "91 sqm",
+        price: "KES 11.4M",
+        type: "2 Bedroom",
+        image: "2BR 91SQM.jpg"
+      },
+      {
+        name: "Premier 2 Bedroom",
+        size: "95 sqm",
+        price: "Inquire for Price",
+        type: "2 Bedroom",
+        image: "2BR 95SQM.jpg"
+      },
+      {
+        name: "Executive 2 Bedroom",
+        size: "96 sqm",
+        price: "Inquire for Price",
+        type: "2 Bedroom",
+        image: "2BR 96SQM.jpg"
+      }
+    ],
+    features: [
+      "Rooftop Pool",
+      "Coffee Lounge",
+      "Minimart",
+      "Conference Room",
+      "Indoor Kids Play Area",
+      "Spa",
+      "Backup Generator",
+      "High Speed Lifts"
+    ],
+    coordinates: {
+      lat: -1.2921,
+      lng: 36.7871
+    }
+  },
+  {
+    id: 'rental-1',
+    title: 'Modern 2BR Apartment',
+    price: 85000,
+    priceLabel: 'KES 85,000/mo',
+    address: 'Kileleshwa, Othaya Road',
+    city: 'Kileleshwa',
+    state: 'Nairobi',
+    beds: 2,
+    baths: 2,
+    sqft: 110,
+    type: 'Apartment',
+    category: 'Rent',
+    imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+    description: 'Spacious 2 bedroom apartment in a quiet compound in Kileleshwa. Features a large balcony, closed kitchen, and swimming pool. Rent includes service charge.',
+    features: ['Swimming Pool', 'Borehole', 'Garden'],
+    coordinates: { lat: -1.2841, lng: 36.8155 }
   }
 ];
