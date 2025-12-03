@@ -1,3 +1,4 @@
+
 import { Property } from './types';
 
 export const MOCK_PROPERTIES: Property[] = [
@@ -108,7 +109,7 @@ export const MOCK_PROPERTIES: Property[] = [
         title: "Typical Floor Plan",
         badge: "Floor Plan",
         images: [
-          "New Typical Floor Plan.jpg"
+          "New Typical Floor Plan - 1.jpg"
         ]
       },
       {
@@ -164,7 +165,16 @@ export const MOCK_PROPERTIES: Property[] = [
       "251025 AMENITIES-06.jpg",
       "251025 AMENITIES-07.jpg",
       "251025 AMENITIES-08.jpg",
-      "251025 AMENITIES-09.jpg"
+      "251025 AMENITIES-09.jpg",
+      "251025 AMENITIES-10.jpg",
+      "251025 AMENITIES-11.jpg",
+      "251025 AMENITIES-12.jpg",
+      "251025 AMENITIES-13.jpg",
+      "251025 AMENITIES-14.jpg",
+      "251025 AMENITIES-15.jpg",
+      "251025 AMENITIES-16.jpg",
+      "251025 AMENITIES-17.jpg",
+      "251025 AMENITIES-18.jpg"
     ],
     features: [
       "UN Standard Security",
@@ -210,42 +220,151 @@ export const MOCK_PROPERTIES: Property[] = [
         size: "45 sqm",
         price: "KES 5.65M",
         type: "1 Bedroom",
-        image: "1BR 45SQM.jpg" 
+        image: "1BR 45SQM-1.jpg" 
       },
       {
         name: "Standard 1 Bedroom",
         size: "50 sqm",
         price: "KES 6.25M",
         type: "1 Bedroom",
-        image: "1BR 50SQM.jpg"
+        image: "1BR 50SQM-1.jpg"
       },
       {
         name: "Luxury 1 Bedroom",
         size: "59 sqm",
         price: "Inquire for Price",
         type: "1 Bedroom",
-        image: "1BR 59SQM.jpg"
+        image: "1BR 59SQM-1.jpg"
       },
       {
         name: "Classic 2 Bedroom",
         size: "91 sqm",
         price: "KES 11.4M",
         type: "2 Bedroom",
-        image: "2BR 91SQM.jpg"
+        image: "2BR 91SQM-1.jpg"
       },
       {
         name: "Premier 2 Bedroom",
         size: "95 sqm",
         price: "Inquire for Price",
         type: "2 Bedroom",
-        image: "2BR 95SQM.jpg"
+        image: "2BR 95SQM-1.jpg"
       },
       {
         name: "Executive 2 Bedroom",
         size: "96 sqm",
         price: "Inquire for Price",
         type: "2 Bedroom",
-        image: "2BR 96SQM.jpg"
+        image: "2BR 96SQM-1.jpg"
+      }
+    ],
+    interiorGalleries: [
+      {
+        title: "Oak Breeze Residency Brochure",
+        badge: "Brochure",
+        images: [
+          "Oak_Breeze_Residency_Brochure-01.jpg",
+          "Oak_Breeze_Residency_Brochure-02.jpg",
+          "Oak_Breeze_Residency_Brochure-03.jpg",
+          "Oak_Breeze_Residency_Brochure-04.jpg",
+          "Oak_Breeze_Residency_Brochure-05.jpg",
+          "Oak_Breeze_Residency_Brochure-06.jpg",
+          "Oak_Breeze_Residency_Brochure-07.jpg",
+          "Oak_Breeze_Residency_Brochure-08.jpg",
+          "Oak_Breeze_Residency_Brochure-09.jpg",
+          "Oak_Breeze_Residency_Brochure-10.jpg",
+          "Oak_Breeze_Residency_Brochure-11.jpg",
+          "Oak_Breeze_Residency_Brochure-12.jpg",
+          "Oak_Breeze_Residency_Brochure-13.jpg",
+          "Oak_Breeze_Residency_Brochure-14.jpg",
+          "Oak_Breeze_Residency_Brochure-15.jpg",
+          "Oak_Breeze_Residency_Brochure-16.jpg",
+          "Oak_Breeze_Residency_Brochure-17.jpg",
+          "Oak_Breeze_Residency_Brochure-18.jpg",
+          "Oak_Breeze_Residency_Brochure-19.jpg",
+          "Oak_Breeze_Residency_Brochure-20.jpg",
+          "Oak_Breeze_Residency_Brochure-21.jpg",
+          "Oak_Breeze_Residency_Brochure-22.jpg",
+          "Oak_Breeze_Residency_Brochure-23.jpg"
+        ]
+      },
+      {
+        title: "2 Bedroom (96 SQM)",
+        badge: "Interior & Floor Plan",
+        images: [
+          "2BR 96SQM-1.jpg",
+          "2BR 96SQM-2.jpg",
+          "2BR 96SQM-3.jpg",
+          "2BR 96SQM-4.jpg",
+          "2BR 96SQM-5.jpg",
+          "2BR 96SQM-6.jpg",
+          "2BR 96SQM-7.jpg",
+          "2BR 96SQM-8.jpg",
+          "2BR 96SQM-9.jpg"
+        ]
+      },
+      {
+        title: "2 Bedroom (91 SQM)",
+        badge: "Interior & Floor Plan",
+        images: [
+          "2BR 91SQM-1.jpg",
+          "2BR 91SQM-2.jpg",
+          "2BR 91SQM-3.jpg",
+          "2BR 91SQM-4.jpg",
+          "2BR 91SQM-5.jpg",
+          "2BR 91SQM-6.jpg",
+          "2BR 91SQM-7.jpg",
+          "2BR 91SQM-8.jpg"
+        ]
+      },
+      {
+        title: "2 Bedroom (95 SQM)",
+        badge: "Interior & Floor Plan",
+        images: [
+          "2BR 95SQM-1.jpg",
+          "2BR 95SQM-2.jpg",
+          "2BR 95SQM-3.jpg",
+          "2BR 95SQM-4.jpg",
+          "2BR 95SQM-5.jpg",
+          "2BR 95SQM-6.jpg",
+          "2BR 95SQM-7.jpg",
+          "2BR 95SQM-8.jpg"
+        ]
+      },
+      {
+        title: "1 Bedroom (59 SQM)",
+        badge: "Interior & Floor Plan",
+        images: [
+          "1BR 59SQM-1.jpg",
+          "1BR 59SQM-2.jpg",
+          "1BR 59SQM-3.jpg",
+          "1BR 59SQM-4.jpg",
+          "1BR 59SQM-5.jpg",
+          "1BR 59SQM-6.jpg"
+        ]
+      },
+      {
+        title: "1 Bedroom (50 SQM)",
+        badge: "Interior & Floor Plan",
+        images: [
+          "1BR 50SQM-1.jpg",
+          "1BR 50SQM-2.jpg",
+          "1BR 50SQM-3.jpg",
+          "1BR 50SQM-4.jpg",
+          "1BR 50SQM-5.jpg"
+        ]
+      },
+      {
+        title: "1 Bedroom (45 SQM)",
+        badge: "Interior & Floor Plan",
+        images: [
+          "1BR 45SQM-1.jpg",
+          "1BR 45SQM-2.jpg",
+          "1BR 45SQM-3.jpg",
+          "1BR 45SQM-4.jpg",
+          "1BR 45SQM-5.jpg",
+          "1BR 45SQM-6.jpg"
+        ]
       }
     ],
     features: [

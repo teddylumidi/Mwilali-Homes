@@ -1,10 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
 import { MOCK_PROPERTIES } from './constants';
 import { Property } from './types';
-import { searchPropertiesWithAI } from './services/gemini';
 import { PropertyCard } from './components/PropertyCard';
 import { PropertyModal } from './components/PropertyModal';
-import { ChatWidget } from './components/ChatWidget';
 import { Search, MapPin, Menu, X, Phone, Mail, ArrowRight, Home, CheckCircle2 } from 'lucide-react';
 
 type View = 'home' | 'about' | 'sale' | 'rent' | 'contact';
@@ -74,26 +73,24 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentView, allProperties]);
 
-  const handleSearch = async (e: React.FormEvent) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
 
     setIsSearching(true);
     setCurrentView('sale'); // Redirect to listing view on search
 
-    try {
-      const matchedIds = await searchPropertiesWithAI(searchQuery, allProperties);
-      const filtered = allProperties.filter(p => matchedIds.includes(p.id));
-      const orderedFiltered = matchedIds
-        .map(id => filtered.find(p => p.id === id))
-        .filter((p): p is Property => p !== undefined);
-        
-      setDisplayedProperties(orderedFiltered);
-    } catch (error) {
-      console.error("Search failed", error);
-    } finally {
-      setIsSearching(false);
-    }
+    // Local filter logic replacing AI search
+    const lowerQuery = searchQuery.toLowerCase();
+    const filtered = allProperties.filter(p => 
+      p.title.toLowerCase().includes(lowerQuery) ||
+      p.city.toLowerCase().includes(lowerQuery) ||
+      p.description.toLowerCase().includes(lowerQuery) ||
+      p.address.toLowerCase().includes(lowerQuery)
+    );
+      
+    setDisplayedProperties(filtered);
+    setIsSearching(false);
   };
 
   const handleContactSubmit = (e: React.FormEvent) => {
@@ -589,7 +586,6 @@ const App: React.FC = () => {
         property={selectedProperty} 
         onClose={() => setSelectedProperty(null)} 
       />
-      <ChatWidget />
     </div>
   );
 };

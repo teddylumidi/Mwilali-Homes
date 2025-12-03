@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Property } from '../types';
 import { X, Check, MapPin, Bed, Bath, Square, Phone, Mail, ChevronLeft, ChevronRight, ZoomIn, LayoutGrid, LayoutList } from 'lucide-react';
 
@@ -8,8 +8,50 @@ interface PropertyModalProps {
 }
 
 export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose }) => {
-  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
+  // Lightbox State
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  // View Mode State
   const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
+
+  // Open Lightbox with specific context
+  const openLightbox = (images: string[], index: number) => {
+    setLightboxImages(images);
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    setLightboxImages([]);
+    setLightboxIndex(0);
+  };
+
+  const nextLightboxImage = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setLightboxIndex((prev) => (prev + 1) % lightboxImages.length);
+  }, [lightboxImages.length]);
+
+  const prevLightboxImage = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setLightboxIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length);
+  }, [lightboxImages.length]);
+
+  // Keyboard Navigation for Lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxOpen) return;
+      
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') nextLightboxImage();
+      if (e.key === 'ArrowLeft') prevLightboxImage();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxOpen, nextLightboxImage, prevLightboxImage]);
 
   if (!property) return null;
 
@@ -21,6 +63,9 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
   };
 
   const unitSectionTitle = getUnitSectionTitle(property.id);
+
+  // Extract all unit images for the lightbox context
+  const allUnitImages = property.units?.map(u => u.image) || [];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
@@ -42,6 +87,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
             src={property.imageUrl} 
             alt={property.title} 
             className="w-full h-full object-cover"
+            loading="lazy"
           />
            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/90 via-primary/50 to-transparent p-6 sm:p-8">
              <div className="inline-block bg-accent text-white text-xs font-bold px-3 py-1 mb-3 uppercase tracking-widest">
@@ -117,11 +163,15 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                        <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
                           {property.units.map((unit, idx) => (
                              <div key={idx} className="snap-center shrink-0 w-[280px] sm:w-[320px] bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow border border-gray-100 overflow-hidden flex flex-col">
-                                <div className="relative aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image" onClick={() => setZoomedImage(unit.image)}>
+                                <div 
+                                  className="relative aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image" 
+                                  onClick={() => openLightbox(allUnitImages, idx)}
+                                >
                                    <img 
                                       src={unit.image} 
                                       alt={unit.name} 
                                       className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover/image:scale-105"
+                                      loading="lazy"
                                       onError={(e) => {
                                         (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Image+Unavailable';
                                       }}
@@ -151,11 +201,15 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {property.units.map((unit, idx) => (
                          <div key={idx} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 overflow-hidden flex flex-row sm:flex-col">
-                            <div className="relative w-32 sm:w-full sm:aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image shrink-0" onClick={() => setZoomedImage(unit.image)}>
+                            <div 
+                              className="relative w-32 sm:w-full sm:aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image shrink-0" 
+                              onClick={() => openLightbox(allUnitImages, idx)}
+                            >
                                <img 
                                   src={unit.image} 
                                   alt={unit.name} 
                                   className="w-full h-full object-contain p-2"
+                                  loading="lazy"
                                   onError={(e) => {
                                     (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Image+Unavailable';
                                   }}
@@ -186,11 +240,15 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                       <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
                         {gallery.images.map((img, idx) => (
                            <div key={idx} className="snap-center shrink-0 w-[280px] sm:w-[320px] bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden">
-                              <div className="relative aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image" onClick={() => setZoomedImage(img)}>
+                              <div 
+                                className="relative aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image" 
+                                onClick={() => openLightbox(gallery.images, idx)}
+                              >
                                  <img 
                                     src={img} 
                                     alt={`${gallery.title} ${idx + 1}`} 
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover/image:scale-105"
+                                    loading="lazy"
                                     onError={(e) => {
                                       (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Image+Unavailable';
                                     }}
@@ -241,11 +299,16 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                     <h4 className="text-lg font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">{property.title} Amenities Gallery</h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                       {property.amenitiesGallery.map((img, idx) => (
-                        <div key={idx} className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer shadow-sm border border-gray-100 group/amenity relative" onClick={() => setZoomedImage(img)}>
+                        <div 
+                          key={idx} 
+                          className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer shadow-sm border border-gray-100 group/amenity relative" 
+                          onClick={() => openLightbox(property.amenitiesGallery!, idx)}
+                        >
                           <img 
                             src={img} 
                             alt={`Amenity ${idx + 1}`} 
                             className="w-full h-full object-cover transition-transform duration-500 group-hover/amenity:scale-110"
+                            loading="lazy"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = 'https://placehold.co/400x400?text=Amenity';
                             }}
@@ -266,8 +329,17 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                   <h3 className="text-xl font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">Gallery</h3>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {property.gallery.map((img, idx) => (
-                      <div key={idx} className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer" onClick={() => setZoomedImage(img)}>
-                        <img src={img} alt={`Gallery ${idx}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                      <div 
+                        key={idx} 
+                        className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer" 
+                        onClick={() => openLightbox(property.gallery!, idx)}
+                      >
+                        <img 
+                          src={img} 
+                          alt={`Gallery ${idx}`} 
+                          className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" 
+                          loading="lazy"
+                        />
                       </div>
                     ))}
                   </div>
@@ -312,18 +384,53 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
         </div>
       </div>
 
-      {/* Lightbox Modal */}
-      {zoomedImage && (
-         <div className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4" onClick={() => setZoomedImage(null)}>
-            <button className="absolute top-4 right-4 text-white hover:text-accent transition-colors">
-               <X size={40} />
+      {/* Advanced Lightbox Modal */}
+      {lightboxOpen && lightboxImages.length > 0 && (
+         <div className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center animate-in fade-in duration-200">
+            {/* Close Button */}
+            <button 
+              onClick={closeLightbox}
+              className="absolute top-4 right-4 z-[70] p-2 bg-black/50 hover:bg-white/20 rounded-full text-white transition-colors"
+            >
+               <X size={32} />
             </button>
-            <img 
-               src={zoomedImage} 
-               alt="Zoomed View" 
-               className="max-w-full max-h-[90vh] object-contain shadow-2xl rounded-sm"
-               onClick={(e) => e.stopPropagation()} 
-            />
+
+            {/* Navigation Buttons */}
+            {lightboxImages.length > 1 && (
+              <>
+                <button 
+                  onClick={prevLightboxImage}
+                  className="absolute left-4 z-[70] p-3 bg-black/50 hover:bg-white/20 rounded-full text-white transition-all hover:scale-110"
+                >
+                  <ChevronLeft size={40} />
+                </button>
+                <button 
+                  onClick={nextLightboxImage}
+                  className="absolute right-4 z-[70] p-3 bg-black/50 hover:bg-white/20 rounded-full text-white transition-all hover:scale-110"
+                >
+                  <ChevronRight size={40} />
+                </button>
+              </>
+            )}
+            
+            {/* Image Counter */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/60 px-4 py-1 rounded-full text-white text-sm font-medium backdrop-blur-sm z-[70]">
+              {lightboxIndex + 1} / {lightboxImages.length}
+            </div>
+
+            {/* Main Image */}
+            <div 
+              className="w-full h-full flex items-center justify-center p-4 sm:p-12" 
+              onClick={closeLightbox}
+            >
+               <img 
+                 key={lightboxIndex} // Force re-render for animation
+                 src={lightboxImages[lightboxIndex]} 
+                 alt={`Zoomed View ${lightboxIndex + 1}`} 
+                 className="max-w-full max-h-full object-contain shadow-2xl rounded-sm animate-in zoom-in-95 duration-300"
+                 onClick={(e) => e.stopPropagation()} 
+               />
+            </div>
          </div>
       )}
     </div>
