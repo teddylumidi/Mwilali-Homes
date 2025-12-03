@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Image as ImageIcon, AlertCircle, Loader2 } from 'lucide-react';
 
@@ -15,6 +14,33 @@ export const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
   ...props 
 }) => {
   const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
+  const isPdf = typeof src === 'string' && src.toLowerCase().endsWith('.pdf');
+
+  if (isPdf) {
+    return (
+      <div className={`relative overflow-hidden ${className}`}>
+        {status === 'loading' && (
+          <div className={`absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center z-10 ${skeletonClassName}`}>
+             <Loader2 className="animate-spin text-gray-400" />
+          </div>
+        )}
+        
+        {/* PDF Viewer via Iframe */}
+        <iframe
+          src={`${src}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
+          className="w-full h-full border-0 bg-white"
+          title={alt}
+          onLoad={() => setStatus('loaded')}
+          onError={() => setStatus('error')}
+          // @ts-ignore - loading attribute is supported in modern browsers
+          loading={props.loading}
+        />
+
+        {/* Transparent overlay to intercept clicks and pass them to parent (for Modal/Lightbox opening) */}
+        <div className="absolute inset-0 bg-transparent cursor-pointer z-20" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -46,7 +72,13 @@ export const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
                  if (props.onError) {
                     props.onError(e);
                  } else {
-                    setStatus('error');
+                    // Try to recover with a generated placeholder if not already trying
+                    const width = target.width || 800;
+                    const height = target.height || 600;
+                    const cleanAlt = alt ? alt.substring(0, 30) : 'Property';
+                    // Using placehold.co for fallback
+                    target.src = `https://placehold.co/${width}x${height}/e2e8f0/475569/png?text=${encodeURIComponent(cleanAlt)}`;
+                    // Don't set error status yet, let the fallback load
                  }
             } else {
                 setStatus('error');

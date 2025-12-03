@@ -5,6 +5,8 @@ import { PropertyCard } from './components/PropertyCard';
 import { SkeletonPropertyCard } from './components/SkeletonPropertyCard';
 import { PropertyModal } from './components/PropertyModal';
 import { Search, MapPin, Menu, X, Phone, Mail, ArrowRight, Home, CheckCircle2 } from 'lucide-react';
+import logoLight from './assets/logo.png';
+import logoDark from './assets/logo-white.png';
 
 type View = 'home' | 'about' | 'sale' | 'rent' | 'contact';
 
@@ -12,7 +14,7 @@ const MwalaliLogo = ({ className = "", variant = "light" }: { className?: string
   // variant='light' means the background is light, so we generally want the standard colored/dark logo.
   // variant='dark' means the background is dark (like footer), so we want the white logo.
   
-  const logoSrc = variant === "light" ? "./logo.png" : "./logo-white.png";
+  const logoSrc = variant === "light" ? logoLight : logoDark;
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>

@@ -412,13 +412,23 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
               className="w-full h-full flex items-center justify-center p-4 sm:p-12" 
               onClick={closeLightbox}
             >
-               <img 
-                 key={lightboxIndex} // Force re-render for animation
-                 src={lightboxImages[lightboxIndex]} 
-                 alt={`Zoomed View ${lightboxIndex + 1}`} 
-                 className="max-w-full max-h-full object-contain shadow-2xl rounded-sm animate-in zoom-in-95 duration-300"
-                 onClick={(e) => e.stopPropagation()} 
-               />
+               {lightboxImages[lightboxIndex].toLowerCase().endsWith('.pdf') ? (
+                  <iframe 
+                    key={lightboxIndex}
+                    src={lightboxImages[lightboxIndex]}
+                    className="w-full h-[85vh] bg-white shadow-2xl rounded-sm"
+                    title="Zoomed PDF"
+                    onClick={(e) => e.stopPropagation()} // Allow clicking inside PDF
+                  />
+               ) : (
+                  <img 
+                    key={lightboxIndex} // Force re-render for animation
+                    src={lightboxImages[lightboxIndex]} 
+                    alt={`Zoomed View ${lightboxIndex + 1}`} 
+                    className="max-w-full max-h-full object-contain shadow-2xl rounded-sm animate-in zoom-in-95 duration-300"
+                    onClick={(e) => e.stopPropagation()} 
+                  />
+               )}
             </div>
          </div>
       )}
