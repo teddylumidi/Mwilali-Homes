@@ -3,7 +3,17 @@ import { Property, ChatMessage } from "../types";
 
 // Helper to get safe client
 const getClient = () => {
-    const apiKey = process.env.API_KEY;
+    let apiKey = undefined;
+    try {
+        // Safety check: process might not be defined in browser environments
+        // if not replaced by build tool.
+        if (typeof process !== 'undefined' && process.env) {
+            apiKey = process.env.API_KEY;
+        }
+    } catch (e) {
+        console.warn("Unable to access process.env");
+    }
+
     if (!apiKey) {
         console.error("API_KEY is missing from environment variables");
         throw new Error("API Key is missing. Please configure it.");
