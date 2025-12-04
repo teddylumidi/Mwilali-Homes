@@ -326,16 +326,15 @@ const App: React.FC = () => {
             <div className="w-20 h-1 bg-accent mb-8"></div>
             <div className="prose prose-lg text-gray-600">
                 <p>
-                    Mwalali Homes is a premier real estate consultancy firm situated in the heart of Kilimani, Nairobi. 
-                    We are dedicated to connecting our clients with transformative living spaces.
+                    Mwalali Homes is a modern real estate agency based in Nairobi, Kenya, specializing in residential sales, off-plan marketing, and property promotions for premium urban developments.
+We combine deep market knowledge with innovative marketing to deliver exceptional value to both developers and home buyers.
                 </p>
                 <p>
-                    Our partnership with Oak Developers allows us to bring you two of Nairobi's most exciting projects: 
-                    <strong> Brookside Oak</strong> and <strong>Oak Breeze</strong>. We believe in transparency, quality, and 
-                    creating long-term value for our homeowners and investors.
+                    With a commitment to professionalism, transparency, and personalized service, Mwalali Homes has positioned itself as a trusted partner for clients seeking stylish, functional, and investment-worthy homes in Nairobi’s most sought-after neighborhoods
+                    Welcome to Mwalali Homes <strong>Where your next chapter begins.</strong>. 
                 </p>
                 <ImageWithSkeleton 
-                    src={`/images/nairobi-skyline.webp`}
+                    src={`/images/properties/nairobi-skyline.webp`}
                     alt="Nairobi Skyline" 
                     className="w-full h-64 object-cover rounded-lg my-8 shadow-xl"
                     loading="lazy"
