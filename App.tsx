@@ -227,7 +227,7 @@ const App: React.FC = () => {
             <div className="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0">
                     <img 
-                        src="/1BR 65SQM.jpg"
+                        src="/images/properties/Luxury Real Estate Nairobi.jpg"
                         alt="Luxury Real Estate Nairobi" 
                         className="w-full h-full object-cover"
                         fetchPriority="high"
@@ -411,7 +411,7 @@ const App: React.FC = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {displayedProperties.map(property => (
                             <PropertyCard key={property.id} property={property} onClick={setSelectedProperty} />
-                        ))}
+                        ))S}
                     </div>
                 ) : (
                     <div className="text-center py-20 border-2 border-dashed border-gray-200 rounded-xl">
