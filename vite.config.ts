@@ -36,6 +36,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'lucide-react'],
+          'lazy-load': ['react-lazy-load-image-component'],
         },
       },
     },

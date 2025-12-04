@@ -1,17 +1,11 @@
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
-import { MOCK_PROPERTIES } from './constants';
-import { Property } from './types';
-import { PropertyCard } from './components/PropertyCard';
-import { SkeletonPropertyCard } from './components/SkeletonPropertyCard';
-import { PropertyModal } from './components/PropertyModal';
-import { ImageWithSkeleton } from './components/ImageWithSkeleton';
 import { Search, MapPin, Menu, X, Phone, Mail, ArrowRight, Home, CheckCircle2 } from 'lucide-react';
 
-const HomeView = React.lazy(() => import('./components/home'));
-const AboutView = React.lazy(() => import('./components/about'));
-const SaleView = React.lazy(() => import('./components/sale'));
-const RentView = React.lazy(() => import('./components/rent'));
-const ContactView = React.lazy(() => import('./components/contact'));
+const HomeView = React.lazy(() => import('./src/components/home'));
+const AboutView = React.lazy(() => import('./src/components/about'));
+const SaleView = React.lazy(() => import('./src/components/sale'));
+const RentView = React.lazy(() => import('./src/components/rent'));
+const ContactView = React.lazy(() => import('./src/components/contact'));
 
 type View = 'home' | 'about' | 'sale' | 'rent' | 'contact';
 
@@ -28,11 +22,9 @@ const MwalaliLogo = React.memo(({ className = "", variant = "light" }: { classNa
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('home');
-  const [allProperties] = useState<Property[]>(MOCK_PROPERTIES);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [contactForm, setContactForm] = useState({
@@ -42,26 +34,6 @@ const App: React.FC = () => {
     project: 'Brookside Oak',
     message: ''
   });
-
-  const displayedProperties = useMemo(() => {
-    let properties = allProperties;
-    if (currentView === 'sale') {
-      properties = allProperties.filter(p => p.category === 'Sale');
-    } else if (currentView === 'rent') {
-      properties = allProperties.filter(p => p.category === 'Rent');
-    }
-
-    if (searchQuery.trim()) {
-      const lowerQuery = searchQuery.toLowerCase();
-      return properties.filter(p => 
-        p.title.toLowerCase().includes(lowerQuery) ||
-        p.city.toLowerCase().includes(lowerQuery) ||
-        p.description.toLowerCase().includes(lowerQuery) ||
-        p.address.toLowerCase().includes(lowerQuery)
-      );
-    }
-    return properties;
-  }, [currentView, allProperties, searchQuery]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -263,11 +235,6 @@ const App: React.FC = () => {
             </div>
         </div>
       </footer>
-
-      <PropertyModal 
-        property={selectedProperty} 
-        onClose={() => setSelectedProperty(null)} 
-      />
     </div>
   );
 };

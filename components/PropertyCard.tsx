@@ -20,6 +20,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
           alt={property.title} 
           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
           loading="lazy"
+          placeholderSrc={property.imageUrl.replace('/images/properties/', '/images/placeholders/').replace('.webp', '-placeholder.webp')}
         />
         <div className={`absolute top-4 left-4 px-3 py-1 rounded-sm text-xs font-bold uppercase tracking-wider text-white shadow-sm z-20 ${property.category === 'Sale' ? 'bg-accent' : 'bg-primary'}`}>
           For {property.category}
