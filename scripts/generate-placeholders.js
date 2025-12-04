@@ -7,61 +7,59 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// CHANGED: Output to src/assets instead of public
-const ASSETS_DIR = path.join(process.cwd(), 'src', 'assets');
+const ASSETS_DIR = path.join(process.cwd(), 'public', 'assets');
 
 // 1. Ensure assets directory exists
 if (!fs.existsSync(ASSETS_DIR)) {
   fs.mkdirSync(ASSETS_DIR, { recursive: true });
-  console.log('Created src/assets directory');
+  console.log('Created public/assets directory');
 }
 
 // List of all required filenames.
-// CHANGED: Property images are now .pdf to match constants.ts
 const files = [
-  // --- LOGOS (Keep as PNG) ---
+  // --- LOGOS (Keep as WEBP) ---
   "logo.webp",
   "logo-white.webp",
 
-  // --- OAK BREEZE UNIT SERIES (.pdf) ---
-  ...Array.from({length: 6}, (_, i) => `1BR 45SQM-${i + 1}.pdf`),
-  ...Array.from({length: 5}, (_, i) => `1BR 50SQM-${i + 1}.pdf`),
-  ...Array.from({length: 6}, (_, i) => `1BR 59SQM-${i + 1}.pdf`),
+  // --- OAK BREEZE UNIT SERIES (.webp) ---
+  ...Array.from({length: 6}, (_, i) => `1BR 45SQM-${i + 1}.webp`),
+  ...Array.from({length: 5}, (_, i) => `1BR 50SQM-${i + 1}.webp`),
+  ...Array.from({length: 6}, (_, i) => `1BR 59SQM-${i + 1}.webp`),
   
-  // --- BROOKSIDE OAK SINGLE UNIT IMAGES (.pdf) ---
-  "1BR 65SQM.pdf",
-  "1BR 70SQM.pdf",
-  "1BR 75SQM.pdf",
-  "1BR 89SQM.pdf",
+  // --- BROOKSIDE OAK SINGLE UNIT IMAGES (.webp) ---
+  "1BR 65SQM.webp",
+  "1BR 70SQM.webp",
+  "1BR 75SQM.webp",
+  "1BR 89SQM.webp",
   
-  // --- OAK BREEZE 2BR SERIES (.pdf) ---
-  ...Array.from({length: 8}, (_, i) => `2BR 91SQM-${i + 1}.pdf`),
-  ...Array.from({length: 8}, (_, i) => `2BR 95SQM-${i + 1}.pdf`),
-  ...Array.from({length: 9}, (_, i) => `2BR 96SQM-${i + 1}.pdf`),
+  // --- OAK BREEZE 2BR SERIES (.webp) ---
+  ...Array.from({length: 8}, (_, i) => `2BR 91SQM-${i + 1}.webp`),
+  ...Array.from({length: 8}, (_, i) => `2BR 95SQM-${i + 1}.webp`),
+  ...Array.from({length: 9}, (_, i) => `2BR 96SQM-${i + 1}.webp`),
   
-  // --- BROOKSIDE OAK SINGLE UNIT IMAGES (CONTINUED) (.pdf) ---
-  "2BR 100SQM.pdf",
-  "2BR 118SQM.pdf",
-  "3BR 142SQM.pdf",
-  "3BR 172SQM.pdf",
-  "3BR 186SQM.pdf",
-  "3BR 200SQM (3)-1.pdf",
-  "3BR 200SQM (7)-1.pdf",
+  // --- BROOKSIDE OAK SINGLE UNIT IMAGES (CONTINUED) (.webp) ---
+  "2BR 100SQM.webp",
+  "2BR 118SQM.webp",
+  "3BR 142SQM.webp",
+  "3BR 172SQM.webp",
+  "3BR 186SQM.webp",
+  "3BR 200SQM (3)-1.webp",
+  "3BR 200SQM (7)-1.webp",
   
-  // --- BROOKSIDE OAK 3BR INTERIORS (01-25) (.pdf) ---
-  ...Array.from({length: 25}, (_, i) => `251025 3BR INTERIOR RENDERS-${String(i + 1).padStart(2, '0')}.pdf`),
+  // --- BROOKSIDE OAK 3BR INTERIORS (01-25) (.webp) ---
+  ...Array.from({length: 25}, (_, i) => `251025 3BR INTERIOR RENDERS-${String(i + 1).padStart(2, '0')}.webp`),
   
-  // --- BROOKSIDE OAK AMENITIES (01-18) (.pdf) ---
-  ...Array.from({length: 18}, (_, i) => `251025 AMENITIES-${String(i + 1).padStart(2, '0')}.pdf`),
+  // --- BROOKSIDE OAK AMENITIES (01-18) (.webp) ---
+  ...Array.from({length: 18}, (_, i) => `251025 AMENITIES-${String(i + 1).padStart(2, '0')}.webp`),
   
-  // --- BROOKSIDE OAK 1BR INTERIORS (1-6) (.pdf) ---
-  ...Array.from({length: 6}, (_, i) => `2510251BR INTERIOR RENDERS-${i + 1}.pdf`),
+  // --- BROOKSIDE OAK 1BR INTERIORS (1-6) (.webp) ---
+  ...Array.from({length: 6}, (_, i) => `2510251BR INTERIOR RENDERS-${i + 1}.webp`),
   
-  // --- BROOKSIDE OAK FLOOR PLAN (.pdf) ---
-  "New Typical Floor Plan - 1.pdf",
+  // --- BROOKSIDE OAK FLOOR PLAN (.webp) ---
+  "New Typical Floor Plan - 1.webp",
   
-  // --- OAK BREEZE BROCHURE (01-23) (.pdf) ---
-  ...Array.from({length: 23}, (_, i) => `Oak_Breeze_Residency_Brochure-${String(i + 1).padStart(2, '0')}.pdf`)
+  // --- OAK BREEZE BROCHURE (01-23) (.webp) ---
+  ...Array.from({length: 23}, (_, i) => `Oak_Breeze_Residency_Brochure-${String(i + 1).padStart(2, '0')}.webp`)
 ];
 
 // Helper to download a dummy image
@@ -76,7 +74,7 @@ const downloadPlaceholder = (rawFilename) => {
   }
 
   // Determine text and dimensions
-  const text = filename.replace('.pdf', '').replace('.webp', '').substring(0, 25);
+  const text = filename.replace('.webp', '').substring(0, 25);
   
   // Dimensions: Default Landscape
   let width = 800;
@@ -106,7 +104,7 @@ const downloadPlaceholder = (rawFilename) => {
     fg = 'c05621'; // Accent
   }
 
-  const url = `https://placehold.co/${width}x${height}/${bg}/${fg}/png?text=${encodeURIComponent(text)}`;
+  const url = `https://placehold.co/${width}x${height}/${bg}/${fg}/webp?text=${encodeURIComponent(text)}`;
 
   const file = fs.createWriteStream(filePath);
   
@@ -122,7 +120,7 @@ const downloadPlaceholder = (rawFilename) => {
   });
 };
 
-console.log(`Generating ${files.length} placeholder assets in src/assets...`);
+console.log(`Generating ${files.length} placeholder assets in public/assets...`);
 
 // Throttle requests to avoid rate limits
 let delay = 0;
