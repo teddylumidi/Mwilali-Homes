@@ -4,6 +4,7 @@ import { Property } from './types';
 import { PropertyCard } from './components/PropertyCard';
 import { SkeletonPropertyCard } from './components/SkeletonPropertyCard';
 import { PropertyModal } from './components/PropertyModal';
+import { ImageWithSkeleton } from './components/ImageWithSkeleton';
 import { Search, MapPin, Menu, X, Phone, Mail, ArrowRight, Home, CheckCircle2 } from 'lucide-react';
 
 type View = 'home' | 'about' | 'sale' | 'rent' | 'contact';
@@ -226,8 +227,8 @@ const App: React.FC = () => {
             {/* Hero Section */}
             <div className="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0">
-                    <img 
-                        src="/images/properties/Luxury Real Estate Nairobi.jpg"
+                    <ImageWithSkeleton 
+                        src="/images/properties/Luxury Real Estate Nairobi.webp"
                         alt="Luxury Real Estate Nairobi" 
                         className="w-full h-full object-cover"
                         fetchPriority="high"
@@ -365,8 +366,8 @@ const App: React.FC = () => {
                     <strong> Brookside Oak</strong> and <strong>Oak Breeze</strong>. We believe in transparency, quality, and 
                     creating long-term value for our homeowners and investors.
                 </p>
-                <img 
-                    src="/2BR 91SQM-1.jpg"
+                <ImageWithSkeleton 
+                    src="/images/properties/2BR 91SQM-1.webp"
                     alt="Nairobi Skyline" 
                     className="w-full h-64 object-cover rounded-lg my-8 shadow-xl"
                     loading="lazy"
@@ -411,7 +412,7 @@ const App: React.FC = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {displayedProperties.map(property => (
                             <PropertyCard key={property.id} property={property} onClick={setSelectedProperty} />
-                        ))S}
+                        ))}
                     </div>
                 ) : (
                     <div className="text-center py-20 border-2 border-dashed border-gray-200 rounded-xl">
