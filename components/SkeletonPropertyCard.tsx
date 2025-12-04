@@ -38,3 +38,6 @@ export const SkeletonPropertyCard: React.FC = () => {
         {/* Button */}
         <div className="h-10 bg-gray-100 rounded w-full animate-pulse mt-4" />
       </div>
+    </div>
+  );
+};
