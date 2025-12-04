@@ -1,28 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mwalali Homes | Premium Living in Nairobi</title>
-    <meta name="description" content="Premium real estate in Nairobi featuring Brookside Oak and Oak Breeze developments.">
     
-    <!-- Performance Optimizations -->
-    <link rel="preconnect" href="https://images.unsplash.com" />
+    <!-- SEO and PWA Manifest -->
+    <meta name="description" content="Premium real estate in Nairobi featuring Brookside Oak and Oak Breeze developments.">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+    <!-- Performance: Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
-    <!-- Preload Critical Assets (Logos) -->
-    <link rel="preload" as="image" href="./logo.png" />
-    <link rel="preload" as="image" href="./logo-white.png" />
-    
+    <!-- Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="./index.css">
   </head>
   <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
   </body>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { MOCK_PROPERTIES } from './constants';
 import { Property } from './types';
 import { PropertyCard } from './components/PropertyCard';
@@ -9,32 +9,26 @@ import { Search, MapPin, Menu, X, Phone, Mail, ArrowRight, Home, CheckCircle2 } 
 
 type View = 'home' | 'about' | 'sale' | 'rent' | 'contact';
 
-const MwalaliLogo = ({ className = "", variant = "light" }: { className?: string, variant?: "light" | "dark" }) => {
-  // variant='light' means the background is light, so we generally want the standard colored/dark logo.
-  // variant='dark' means the background is dark (like footer), so we want the white logo.
-  
+const MwalaliLogo = React.memo(({ className = "", variant = "light" }: { className?: string, variant?: "light" | "dark" }) => {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      {/* Fallback Text if Image Fails */}
       <div className="flex-col justify-center">
         <span className={`font-serif font-bold text-2xl leading-none tracking-wide ${variant === 'light' ? 'text-primary' : 'text-white'}`}>MWALALI</span>
         <span className="font-sans font-bold text-[0.6rem] tracking-[0.38em] uppercase mt-0.5 ml-0.5 text-accent">HOMES</span>
       </div>
     </div>
   );
-};
+});
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('home');
   const [allProperties] = useState<Property[]>(MOCK_PROPERTIES);
-  const [displayedProperties, setDisplayedProperties] = useState<Property[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Contact Form State
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -43,52 +37,44 @@ const App: React.FC = () => {
     message: ''
   });
 
-  // Filter properties when view changes
-  useEffect(() => {
-    setIsLoading(true);
-    // Simulate network delay for smooth skeleton effect
-    const timer = setTimeout(() => {
-      if (currentView === 'sale') {
-        setDisplayedProperties(allProperties.filter(p => p.category === 'Sale'));
-      } else if (currentView === 'rent') {
-        setDisplayedProperties(allProperties.filter(p => p.category === 'Rent'));
-      } else {
-        setDisplayedProperties(allProperties); // Home might show featured
-      }
-      setSearchQuery('');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setIsLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
-  }, [currentView, allProperties]);
+  const displayedProperties = useMemo(() => {
+    let properties = allProperties;
+    if (currentView === 'sale') {
+      properties = allProperties.filter(p => p.category === 'Sale');
+    } else if (currentView === 'rent') {
+      properties = allProperties.filter(p => p.category === 'Rent');
+    }
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-
-    setIsSearching(true);
-    setIsLoading(true);
-    setCurrentView('sale'); // Redirect to listing view on search
-
-    setTimeout(() => {
-      // Local filter logic replacing AI search
+    if (searchQuery.trim()) {
       const lowerQuery = searchQuery.toLowerCase();
-      const filtered = allProperties.filter(p => 
+      return properties.filter(p => 
         p.title.toLowerCase().includes(lowerQuery) ||
         p.city.toLowerCase().includes(lowerQuery) ||
         p.description.toLowerCase().includes(lowerQuery) ||
         p.address.toLowerCase().includes(lowerQuery)
       );
-        
-      setDisplayedProperties(filtered);
-      setIsSearching(false);
+    }
+    return properties;
+  }, [currentView, allProperties, searchQuery]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setIsLoading(false);
-    }, 800);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [currentView]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSearching(true);
+    setCurrentView('sale');
+    setTimeout(() => setIsSearching(false), 500);
   };
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     const subject = encodeURIComponent(`Website Inquiry: ${contactForm.project}`);
     const body = encodeURIComponent(
       `Name: ${contactForm.name}\n` +
@@ -97,20 +83,15 @@ const App: React.FC = () => {
       `Project of Interest: ${contactForm.project}\n\n` +
       `Message:\n${contactForm.message}`
     );
-
-    // Open mailto link
     window.location.href = `mailto:mwalalihomes@gmail.com?subject=${subject}&body=${body}`;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setContactForm(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setContactForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const NavLink = ({ view, label }: { view: View; label: string }) => {
+  const NavLink = React.memo(({ view, label }: { view: View; label: string }) => {
     const isActive = currentView === view;
     return (
       <button 
@@ -126,9 +107,9 @@ const App: React.FC = () => {
         <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-accent transform transition-transform duration-300 ease-in-out origin-left ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
       </button>
     );
-  };
+  });
 
-  const MobileNavLink = ({ view, label }: { view: View; label: string }) => {
+  const MobileNavLink = React.memo(({ view, label }: { view: View; label: string }) => {
     const isActive = currentView === view;
     return (
       <button 
@@ -151,12 +132,11 @@ const App: React.FC = () => {
         </div>
       </button>
     );
-  };
+  });
 
   return (
     <div className="min-h-screen bg-[#fdfbf7] flex flex-col font-sans text-gray-800">
       
-      {/* Top Bar - Contact Info */}
       <div className="bg-primary text-white text-xs py-2 px-4 hidden sm:block">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
             <div className="flex gap-6">
@@ -169,11 +149,9 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* Navbar */}
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
-            {/* Logo */}
             <div 
                 className="cursor-pointer" 
                 onClick={() => setCurrentView('home')}
@@ -181,7 +159,6 @@ const App: React.FC = () => {
               <MwalaliLogo variant="light" />
             </div>
             
-            {/* Desktop Nav */}
             <div className="hidden md:flex space-x-8 items-center">
               <NavLink view="home" label="Home" />
               <NavLink view="about" label="About Us" />
@@ -190,7 +167,6 @@ const App: React.FC = () => {
               <NavLink view="contact" label="Contact Us" />
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center">
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
@@ -202,7 +178,6 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Nav with Animation */}
         <div 
           className={`md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl z-50 transition-all duration-300 ease-in-out origin-top overflow-hidden ${
              mobileMenuOpen ? 'max-h-[500px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-2'
@@ -218,13 +193,10 @@ const App: React.FC = () => {
         </div>
       </nav>
 
-      {/* Content Router */}
-      <div className="flex-grow">
+      <main className="flex-grow">
         
-        {/* HOME VIEW */}
         {currentView === 'home' && (
           <>
-            {/* Hero Section */}
             <div className="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0">
                     <ImageWithSkeleton 
@@ -262,7 +234,6 @@ const App: React.FC = () => {
                             </button>
                         </div>
 
-                        {/* Search Bar */}
                         <form onSubmit={handleSearch} className="bg-white p-2 rounded shadow-2xl flex max-w-md">
                             <input 
                                 type="text"
@@ -282,7 +253,6 @@ const App: React.FC = () => {
                 </div>
             </div>
 
-            {/* Introduction Section */}
             <section className="py-20 bg-white">
                 <div className="max-w-4xl mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-6">Welcome to Mwalali Homes</h2>
@@ -311,7 +281,6 @@ const App: React.FC = () => {
                 </div>
             </section>
 
-            {/* Featured Projects Preview */}
             <section className="py-20 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="flex justify-between items-end mb-12">
@@ -334,7 +303,7 @@ const App: React.FC = () => {
                              <SkeletonPropertyCard />
                            </>
                         ) : (
-                          allProperties.filter(p => p.category === 'Sale').map(property => (
+                          allProperties.filter(p => p.category === 'Sale').slice(0, 2).map(property => (
                               <PropertyCard key={property.id} property={property} onClick={setSelectedProperty} />
                           ))
                         )}
@@ -351,7 +320,6 @@ const App: React.FC = () => {
           </>
         )}
 
-        {/* ABOUT VIEW */}
         {currentView === 'about' && (
           <div className="py-20 max-w-4xl mx-auto px-4">
             <h2 className="text-4xl font-serif font-bold text-primary mb-6">About Mwalali Homes</h2>
@@ -388,7 +356,6 @@ const App: React.FC = () => {
           </div>
         )}
 
-        {/* LISTING VIEWS (SALE & RENT) */}
         {(currentView === 'sale' || currentView === 'rent') && (
           <div className="py-12 max-w-7xl mx-auto px-4">
             <div className="mb-8">
@@ -402,10 +369,7 @@ const App: React.FC = () => {
             
             {isLoading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <SkeletonPropertyCard />
-                    <SkeletonPropertyCard />
-                    <SkeletonPropertyCard />
-                    <SkeletonPropertyCard />
+                    {[...Array(6)].map((_, i) => <SkeletonPropertyCard key={i} />)}
                 </div>
             ) : (
                 displayedProperties.length > 0 ? (
@@ -417,13 +381,15 @@ const App: React.FC = () => {
                 ) : (
                     <div className="text-center py-20 border-2 border-dashed border-gray-200 rounded-xl">
                         <p className="text-gray-500">No properties found matching your criteria.</p>
+                        <button onClick={() => { setSearchQuery(''); setCurrentView('sale'); }} className="mt-4 bg-accent text-white px-6 py-2 rounded font-semibold">
+                            Clear Search
+                        </button>
                     </div>
                 )
             )}
           </div>
         )}
 
-        {/* CONTACT VIEW */}
         {currentView === 'contact' && (
           <div className="bg-gray-50 min-h-screen">
              <div className="bg-primary text-white py-20 text-center">
@@ -433,7 +399,6 @@ const App: React.FC = () => {
              
              <div className="max-w-7xl mx-auto px-4 -mt-10 pb-20">
                 <div className="grid md:grid-cols-2 gap-8">
-                    {/* Contact Info Card */}
                     <div className="bg-white p-8 rounded-lg shadow-xl h-full">
                         <h3 className="text-2xl font-bold font-serif text-primary mb-6">Get in Touch</h3>
                         
@@ -471,7 +436,6 @@ const App: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Contact Form */}
                     <div className="bg-white p-8 rounded-lg shadow-xl">
                         <h3 className="text-2xl font-bold font-serif text-primary mb-6">Send a Message</h3>
                         <form className="space-y-4" onSubmit={handleContactSubmit}>
@@ -545,9 +509,8 @@ const App: React.FC = () => {
           </div>
         )}
 
-      </div>
+      </main>
 
-      {/* Footer */}
       <footer className="bg-primary text-white pt-16 pb-8 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
@@ -562,7 +525,7 @@ const App: React.FC = () => {
                     <h4 className="text-lg font-bold mb-6 font-serif border-b border-gray-700 pb-2 inline-block">Quick Links</h4>
                     <ul className="space-y-3 text-gray-400">
                         <li><button onClick={() => setCurrentView('home')} className="hover:text-accent transition-colors">Home</button></li>
-                        <li><button onClick={() => setCurrentView('about')} className="hover:text-accent transition-colors">About Us</button></li>
+                        <li><button onClick={() => setCurrentView('about')} className-="hover:text-accent transition-colors">About Us</button></li>
                         <li><button onClick={() => setCurrentView('sale')} className="hover:text-accent transition-colors">Properties For Sale</button></li>
                         <li><button onClick={() => setCurrentView('contact')} className="hover:text-accent transition-colors">Contact Us</button></li>
                     </ul>
