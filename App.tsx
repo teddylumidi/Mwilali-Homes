@@ -5,8 +5,6 @@ import { PropertyCard } from './components/PropertyCard';
 import { SkeletonPropertyCard } from './components/SkeletonPropertyCard';
 import { PropertyModal } from './components/PropertyModal';
 import { Search, MapPin, Menu, X, Phone, Mail, ArrowRight, Home, CheckCircle2 } from 'lucide-react';
-import logoLight from './assets/logo.png';
-import logoDark from './assets/logo-white.png';
 
 type View = 'home' | 'about' | 'sale' | 'rent' | 'contact';
 
@@ -14,22 +12,10 @@ const MwalaliLogo = ({ className = "", variant = "light" }: { className?: string
   // variant='light' means the background is light, so we generally want the standard colored/dark logo.
   // variant='dark' means the background is dark (like footer), so we want the white logo.
   
-  const logoSrc = variant === "light" ? logoLight : logoDark;
-
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      <img 
-        src={logoSrc}
-        alt="Mwalali Homes"
-        className="h-14 w-auto object-contain"
-        onError={(e) => {
-          // Fallback if image doesn't exist yet - useful during development
-          (e.target as HTMLImageElement).style.display = 'none';
-          (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-        }}
-      />
       {/* Fallback Text if Image Fails */}
-      <div className="hidden flex-col justify-center">
+      <div className="flex-col justify-center">
         <span className={`font-serif font-bold text-2xl leading-none tracking-wide ${variant === 'light' ? 'text-primary' : 'text-white'}`}>MWALALI</span>
         <span className="font-sans font-bold text-[0.6rem] tracking-[0.38em] uppercase mt-0.5 ml-0.5 text-accent">HOMES</span>
       </div>
@@ -241,13 +227,7 @@ const App: React.FC = () => {
             <div className="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0">
                     <img 
-                        src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
-                        srcSet="
-                          https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=640&q=80 640w,
-                          https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80 1024w,
-                          https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80 1950w
-                        "
-                        sizes="100vw"
+                        src="/1BR 65SQM.jpg"
                         alt="Luxury Real Estate Nairobi" 
                         className="w-full h-full object-cover"
                         fetchPriority="high"
@@ -386,7 +366,7 @@ const App: React.FC = () => {
                     creating long-term value for our homeowners and investors.
                 </p>
                 <img 
-                    src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
+                    src="/2BR 91SQM-1.jpg"
                     alt="Nairobi Skyline" 
                     className="w-full h-64 object-cover rounded-lg my-8 shadow-xl"
                     loading="lazy"
