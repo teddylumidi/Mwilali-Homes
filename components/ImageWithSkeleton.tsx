@@ -35,8 +35,6 @@ export const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
       src={src}
       className={className}
       effect="blur"
-      // You can use a small placeholder image for a better visual effect
-      placeholderSrc="/images/placeholder.webp" 
       {...props}
     />
   );

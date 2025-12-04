@@ -228,7 +228,7 @@ const App: React.FC = () => {
             <div className="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0">
                     <ImageWithSkeleton 
-                        src="/images/properties/Luxury Real Estate Nairobi.webp"
+                        src={`/images/properties/Luxury%20Real%20Estate%20Nairobi.webp`}
                         alt="Luxury Real Estate Nairobi" 
                         className="w-full h-full object-cover"
                         fetchPriority="high"
@@ -367,7 +367,7 @@ const App: React.FC = () => {
                     creating long-term value for our homeowners and investors.
                 </p>
                 <ImageWithSkeleton 
-                    src="/images/properties/2BR 91SQM-1.webp"
+                    src={`/images/nairobi-skyline.webp`}
                     alt="Nairobi Skyline" 
                     className="w-full h-64 object-cover rounded-lg my-8 shadow-xl"
                     loading="lazy"
