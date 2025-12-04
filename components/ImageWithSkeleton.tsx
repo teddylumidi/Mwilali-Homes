@@ -4,12 +4,14 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 
 interface ImageWithSkeletonProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   skeletonClassName?: string;
+  placeholderSrc?: string;
 }
 
 export const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({ 
   src, 
   alt, 
   className = "", 
+  placeholderSrc,
   ...props 
 }) => {
   const isPdf = typeof src === 'string' && src.toLowerCase().endsWith('.pdf');
@@ -35,6 +37,7 @@ export const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
       src={src}
       className={className}
       effect="blur"
+      placeholderSrc={placeholderSrc}
       {...props}
     />
   );

@@ -10,9 +10,9 @@ const convertImagesToWebp = async () => {
     const files = await fs.readdir(imageDir);
 
     for (const file of files) {
-      if (file.endsWith('.jpg')) {
+      if (file.endsWith('.webp') || file.endsWith('.webp')) {
         const inputPath = path.join(imageDir, file);
-        const outputPath = path.join(imageDir, file.replace('.jpg', '.webp'));
+        const outputPath = path.join(imageDir, file.replace(/\.(jpg|png)$/, '.webp'));
 
         await sharp(inputPath)
           .toFormat('webp')

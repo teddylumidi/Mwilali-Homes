@@ -1,0 +1,1 @@
+export default function Rent() { return <h1>For Rent</h1>}

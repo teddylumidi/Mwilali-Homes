@@ -20,8 +20,8 @@ if (!fs.existsSync(ASSETS_DIR)) {
 // CHANGED: Property images are now .pdf to match constants.ts
 const files = [
   // --- LOGOS (Keep as PNG) ---
-  "logo.png",
-  "logo-white.png",
+  "logo.webp",
+  "logo-white.webp",
 
   // --- OAK BREEZE UNIT SERIES (.pdf) ---
   ...Array.from({length: 6}, (_, i) => `1BR 45SQM-${i + 1}.pdf`),
@@ -76,7 +76,7 @@ const downloadPlaceholder = (rawFilename) => {
   }
 
   // Determine text and dimensions
-  const text = filename.replace('.pdf', '').replace('.png', '').substring(0, 25);
+  const text = filename.replace('.pdf', '').replace('.webp', '').substring(0, 25);
   
   // Dimensions: Default Landscape
   let width = 800;
