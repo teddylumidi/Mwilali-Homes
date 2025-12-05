@@ -382,13 +382,19 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
                   >
                     Request Payment Plan
                   </button>
-                  <a
-                    href="/brochures/Oak_Breeze_Residency_Brochure.pdf"
-                    download="Oak_Breeze_Residency_Brochure.webp"
-                    className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-4 rounded transition-colors text-sm border border-white/20 block text-center"
-                  >
-                    Download Brochure
-                  </a>
+                  {property.id === 'oak-breeze' ? (
+                    <a
+                      href="/brochures/Oak_Breeze_Residency_Brochure.pdf"
+                      download="Oak_Breeze_Residency_Brochure.webp"
+                      className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-4 rounded transition-colors text-sm border border-white/20 block text-center"
+                    >
+                      Download Brochure
+                    </a>
+                  ) : (
+                    <div className="w-full bg-white/5 text-white/70 font-semibold py-3 px-4 rounded text-sm border border-white/10 text-center">
+                      Brochure available soon
+                    </div>
+                  )}
                 </div>
               </div>
             )}
