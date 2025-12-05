@@ -6,9 +6,10 @@ import { ImageWithSkeleton } from './ImageWithSkeleton';
 interface PropertyModalProps {
   property: Property | null;
   onClose: () => void;
+  onNavigate?: (view: 'home' | 'about' | 'sale' | 'rent' | 'contact') => void;
 }
 
-export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose }) => {
+export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose, onNavigate }) => {
   // Lightbox State
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
@@ -372,15 +373,22 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                       </a>
                   </div>
 
-                  <a 
-                    href={`mailto:mwalalihomes@gmail.com?subject=Payment Plan Request for ${property.title}&body=I am interested in requesting a payment plan for ${property.title}. Please provide more details.`}
-                    className="w-full bg-accent hover:bg-orange-700 text-white font-bold py-4 px-4 rounded transition-all shadow-lg flex items-center justify-center gap-2 mb-3 uppercase tracking-wider text-sm text-center block"
+                  <button
+                    onClick={() => {
+                      onClose();
+                      onNavigate?.('contact');
+                    }}
+                    className="w-full bg-accent hover:bg-orange-700 text-white font-bold py-4 px-4 rounded transition-all shadow-lg flex items-center justify-center gap-2 mb-3 uppercase tracking-wider text-sm text-center"
                   >
                     Request Payment Plan
-                  </a>
-                  <button className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-4 rounded transition-colors text-sm border border-white/20">
-                    Download Brochure
                   </button>
+                  <a
+                    href="/brochures/Oak_Breeze_Residency_Brochure.pdf"
+                    download="Oak_Breeze_Residency_Brochure.webp"
+                    className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-4 rounded transition-colors text-sm border border-white/20 block text-center"
+                  >
+                    Download Brochure
+                  </a>
                 </div>
               </div>
             )}

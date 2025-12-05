@@ -297,7 +297,7 @@ const App: React.FC = () => {
           <Suspense fallback={<LoadingFallback />}>
             {currentView === 'home' && <HomeView onNavigate={handleNavigate} />}
             {currentView === 'about' && <AboutView />}
-            {currentView === 'sale' && <SaleView />}
+            {currentView === 'sale' && <SaleView onNavigate={handleNavigate} />}
             {currentView === 'rent' && <RentView />}
             {currentView === 'contact' && <ContactView />}
           </Suspense>

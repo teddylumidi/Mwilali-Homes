@@ -4,7 +4,11 @@ import { PropertyCard } from '../../../components/PropertyCard';
 import { PropertyModal } from '../../../components/PropertyModal';
 import { Property } from '../../../types';
 
-const Sale = () => {
+interface SaleProps {
+  onNavigate?: (view: 'home' | 'about' | 'sale' | 'rent' | 'contact') => void;
+}
+
+const Sale: React.FC<SaleProps> = ({ onNavigate }) => {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   
   const properties = MOCK_PROPERTIES.filter(p => p.category === 'Sale');
@@ -35,6 +39,7 @@ const Sale = () => {
       <PropertyModal 
         property={selectedProperty} 
         onClose={() => setSelectedProperty(null)} 
+        onNavigate={onNavigate}
       />
     </div>
   );
