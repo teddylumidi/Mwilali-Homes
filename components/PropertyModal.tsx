@@ -23,8 +23,9 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
 
   // Open Lightbox with specific context
   const openLightbox = (images: string[], index: number) => {
+    if (!images || images.length === 0) return;
     setLightboxImages(images);
-    setLightboxIndex(index);
+    setLightboxIndex(index % images.length);
     setLightboxOpen(true);
   };
 
@@ -83,6 +84,18 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
       ? property.interiorGalleries?.find(g => g.title.includes('Brochure'))?.images || []
       : [])
   ].filter(Boolean);
+
+  // Touch swipe for lightbox
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => setTouchStartX(e.touches[0].clientX);
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null || lightboxImages.length <= 1) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    const threshold = 40;
+    if (deltaX > threshold) prevLightboxImage();
+    if (deltaX < -threshold) nextLightboxImage();
+    setTouchStartX(null);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
@@ -447,7 +460,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
             </button>
 
             {/* Navigation Buttons */}
-            {lightboxImages.length > 1 && (
+              {lightboxImages.length > 1 && (
               <>
                 <button 
                   onClick={prevLightboxImage}
@@ -473,6 +486,8 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
             <div 
               className="w-full h-full flex items-center justify-center p-4 sm:p-12" 
               onClick={closeLightbox}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
             >
                {lightboxImages[lightboxIndex].toLowerCase().endsWith('.pdf') ? (
                   <iframe 
@@ -489,9 +504,32 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
                     alt={`Zoomed View ${lightboxIndex + 1}`} 
                     className="max-w-full max-h-full object-contain shadow-2xl rounded-sm animate-in zoom-in-95 duration-300"
                     onClick={(e) => e.stopPropagation()} 
+                    onError={(e) => {
+                      const fallback = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+                      const target = e.currentTarget as HTMLImageElement;
+                      if (target.src !== fallback) target.src = fallback;
+                    }}
                   />
                )}
             </div>
+
+            {lightboxImages.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-[70]">
+                {lightboxImages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLightboxIndex(idx);
+                    }}
+                    aria-label={`Go to slide ${idx + 1}`}
+                    className={`h-2.5 w-2.5 rounded-full transition-colors ${
+                      idx === lightboxIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/70'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
          </div>
       )}
     </div>

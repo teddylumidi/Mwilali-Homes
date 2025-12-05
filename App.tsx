@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
-import { Search, MapPin, Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
+import { MapPin, Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
 
 // Lazy-loaded components with better error boundaries
 const HomeView = React.lazy(() => import('./src/components/home'));

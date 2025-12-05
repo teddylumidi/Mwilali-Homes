@@ -16,6 +16,10 @@ export const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
 }) => {
   const isPdf = typeof src === 'string' && src.toLowerCase().endsWith('.pdf');
 
+  const fallbackSrc =
+    placeholderSrc ||
+    'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
   if (isPdf) {
     return (
       <div className={`relative overflow-hidden ${className}`}>
@@ -38,6 +42,12 @@ export const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({
       className={className}
       effect="blur"
       placeholderSrc={placeholderSrc}
+      onError={(e) => {
+        const target = e.target as HTMLImageElement;
+        if (target.src !== fallbackSrc) {
+          target.src = fallbackSrc;
+        }
+      }}
       {...props}
     />
   );
