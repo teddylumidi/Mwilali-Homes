@@ -72,6 +72,18 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
   // Extract all unit images for the lightbox context
   const allUnitImages = property.units?.map(u => u.image) || [];
 
+  // Aggregate all imagery for a single slideshow experience
+  const aggregatedImages: string[] = [
+    ...allUnitImages,
+    ...(property.interiorGalleries?.flatMap(g => g.images) || []),
+    ...(property.amenitiesGallery || []),
+    ...(property.gallery || []),
+    // Include brochure panels for Oak Breeze (webp pages) so they can be browsed too
+    ...(property.id === 'oak-breeze'
+      ? property.interiorGalleries?.find(g => g.title.includes('Brochure'))?.images || []
+      : [])
+  ].filter(Boolean);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
       <div 
@@ -113,22 +125,33 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
               <p className="text-sm text-gray-500 uppercase tracking-wide font-semibold mb-1">Price</p>
               <p className="text-3xl sm:text-4xl font-bold text-accent font-serif">{property.priceLabel || `KES ${property.price.toLocaleString()}`}</p>
             </div>
-            <div className="flex gap-6 sm:gap-12 bg-white p-4 rounded-lg shadow-sm">
-               <div className="flex flex-col items-center min-w-[60px]">
-                  <Bed size={24} className="text-primary mb-1" />
-                  <span className="font-bold text-lg text-gray-800">{property.beds}</span>
-                  <span className="text-xs text-gray-500 uppercase">Beds</span>
-               </div>
-               <div className="flex flex-col items-center min-w-[60px]">
-                  <Bath size={24} className="text-primary mb-1" />
-                  <span className="font-bold text-lg text-gray-800">{property.baths}</span>
-                  <span className="text-xs text-gray-500 uppercase">Baths</span>
-               </div>
-               <div className="flex flex-col items-center min-w-[60px]">
-                  <Square size={24} className="text-primary mb-1" />
-                  <span className="font-bold text-lg text-gray-800">{property.sqft}</span>
-                  <span className="text-xs text-gray-500 uppercase">Sq M</span>
-               </div>
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <div className="flex gap-6 sm:gap-8 bg-white p-4 rounded-lg shadow-sm">
+                 <div className="flex flex-col items-center min-w-[60px]">
+                    <Bed size={24} className="text-primary mb-1" />
+                    <span className="font-bold text-lg text-gray-800">{property.beds}</span>
+                    <span className="text-xs text-gray-500 uppercase">Beds</span>
+                 </div>
+                 <div className="flex flex-col items-center min-w-[60px]">
+                    <Bath size={24} className="text-primary mb-1" />
+                    <span className="font-bold text-lg text-gray-800">{property.baths}</span>
+                    <span className="text-xs text-gray-500 uppercase">Baths</span>
+                 </div>
+                 <div className="flex flex-col items-center min-w-[60px]">
+                    <Square size={24} className="text-primary mb-1" />
+                    <span className="font-bold text-lg text-gray-800">{property.sqft}</span>
+                    <span className="text-xs text-gray-500 uppercase">Sq M</span>
+                 </div>
+              </div>
+              {aggregatedImages.length > 0 && (
+                <button
+                  onClick={() => openLightbox(aggregatedImages, 0)}
+                  className="inline-flex items-center gap-2 bg-primary text-white px-4 py-3 rounded-lg shadow hover:bg-primary/90 transition-colors"
+                >
+                  <LayoutGrid size={18} />
+                  <span className="text-sm font-semibold">View Full Gallery</span>
+                </button>
+              )}
             </div>
           </div>
 
