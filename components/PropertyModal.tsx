@@ -17,6 +17,9 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
   // View Mode State
   const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
 
+  // Contact panel toggle to let users focus on imagery
+  const [contactCollapsed, setContactCollapsed] = useState(false);
+
   // Open Lightbox with specific context
   const openLightbox = (images: string[], index: number) => {
     setLightboxImages(images);
@@ -128,7 +131,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className={`grid gap-8 ${contactCollapsed ? 'md:grid-cols-1' : 'md:grid-cols-3'}`}>
             <div className="md:col-span-2 space-y-8">
               
               {/* Unit Options / New Renders Section */}
@@ -336,42 +339,64 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
               )}
             </div>
 
-            <div className="md:col-span-1">
-              <div className="bg-primary text-white p-6 rounded-lg shadow-xl sticky top-6">
-                <h3 className="text-2xl font-bold mb-2 font-serif">Interested?</h3>
-                <p className="text-gray-300 mb-6 text-sm">
-                  Secure your space today. Contact Mwalali Homes for bookings and inquiries.
-                </p>
-                
-                <div className="space-y-4 mb-6">
-                    <a href="tel:+254721615737" className="flex items-center gap-3 text-white/90 hover:text-accent transition-colors">
-                        <Phone size={18} />
-                        <span className="font-mono text-sm">+254 721 615 737</span>
-                    </a>
-                    <a href="tel:+254701009827" className="flex items-center gap-3 text-white/90 hover:text-accent transition-colors">
-                        <Phone size={18} />
-                        <span className="font-mono text-sm">+254 701 009 827</span>
-                    </a>
-                    <a href="mailto:mwalalihomes@gmail.com" className="flex items-center gap-3 text-white/90 hover:text-accent transition-colors">
-                        <Mail size={18} />
-                        <span className="text-sm">mwalalihomes@gmail.com</span>
-                    </a>
-                </div>
+            {!contactCollapsed && (
+              <div className="md:col-span-1">
+                <div className="bg-primary text-white p-6 rounded-lg shadow-xl sticky top-6">
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold font-serif">Interested?</h3>
+                      <p className="text-gray-300 mt-1 text-sm">
+                        Secure your space today. Contact Mwalali Homes for bookings and inquiries.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setContactCollapsed(true)}
+                      className="text-white/70 hover:text-white text-xs uppercase tracking-wide border border-white/20 rounded px-2 py-1"
+                    >
+                      Hide
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-4 mb-6">
+                      <a href="tel:+254721615737" className="flex items-center gap-3 text-white/90 hover:text-accent transition-colors">
+                          <Phone size={18} />
+                          <span className="font-mono text-sm">+254 721 615 737</span>
+                      </a>
+                      <a href="tel:+254701009827" className="flex items-center gap-3 text-white/90 hover:text-accent transition-colors">
+                          <Phone size={18} />
+                          <span className="font-mono text-sm">+254 701 009 827</span>
+                      </a>
+                      <a href="mailto:mwalalihomes@gmail.com" className="flex items-center gap-3 text-white/90 hover:text-accent transition-colors">
+                          <Mail size={18} />
+                          <span className="text-sm">mwalalihomes@gmail.com</span>
+                      </a>
+                  </div>
 
-                <a 
-                  href={`mailto:mwalalihomes@gmail.com?subject=Payment Plan Request for ${property.title}&body=I am interested in requesting a payment plan for ${property.title}. Please provide more details.`}
-                  className="w-full bg-accent hover:bg-orange-700 text-white font-bold py-4 px-4 rounded transition-all shadow-lg flex items-center justify-center gap-2 mb-3 uppercase tracking-wider text-sm text-center block"
-                >
-                  Request Payment Plan
-                </a>
-                <button className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-4 rounded transition-colors text-sm border border-white/20">
-                  Download Brochure
-                </button>
+                  <a 
+                    href={`mailto:mwalalihomes@gmail.com?subject=Payment Plan Request for ${property.title}&body=I am interested in requesting a payment plan for ${property.title}. Please provide more details.`}
+                    className="w-full bg-accent hover:bg-orange-700 text-white font-bold py-4 px-4 rounded transition-all shadow-lg flex items-center justify-center gap-2 mb-3 uppercase tracking-wider text-sm text-center block"
+                  >
+                    Request Payment Plan
+                  </a>
+                  <button className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-4 rounded transition-colors text-sm border border-white/20">
+                    Download Brochure
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
+
+      {contactCollapsed && (
+        <button
+          onClick={() => setContactCollapsed(false)}
+          className="fixed bottom-6 right-6 z-[70] bg-primary text-white px-4 py-3 rounded-full shadow-2xl hover:bg-primary/90 flex items-center gap-2"
+        >
+          <Phone size={18} />
+          Show Contact Panel
+        </button>
+      )}
 
       {/* Advanced Lightbox Modal */}
       {lightboxOpen && lightboxImages.length > 0 && (
