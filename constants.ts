@@ -18,7 +18,7 @@ export const MOCK_PROPERTIES: Property[] = [
     type: 'Apartment',
     category: 'Sale',
     imageUrl: '/images/properties/1BR 65SQM.webp',
-    description: `A PREMIER PROJECT BY OAK DEVELOPERS.\n\nExperience luxury living in the heart of Westlands. Brookside Oak offers premium residences with UN-standard security and world-class amenities.\n\nPAYMENT PLAN:\nFlexible payment plans available with construction period estimates provided upon inquiry. Secure your space today with an early booking discount.\n\nLOCATION HIGHLIGHTS:\nLocated near Safaricom HQ, Sarit Centre, MP Shah Hospital, Nairobi International School, Village Market, and the United Nations Office.`,
+    description: `BROOKSIDE OAK — A PREMIER PROJECT BY OAK DEVELOPERS\n\nLocated in the leafy suburbs of Westlands along Muguga Green, Brookside Oak Residency redefines what it means to live and invest in Nairobi's most coveted address within the UN blue Zone. This signature development blends architectural excellence with exceptional investment potential — designed for the discerning few who value both luxury and long-term returns.\n\nESTIMATED CONSTRUCTION PERIOD: February, 2026 – June, 2029\n40 MONTHS PAYMENT PLAN\n\nEXCLUSIVE AMENITIES:\n• 2 Grand reception and concierge desk\n• Expansive outdoor heated swimming pool\n• Paddle court\n• Fully equipped fitness center\n• Café and Market\n• Modern home working hub\n• Indoor children's play area\n• Lush landscaped gardens\n• Residents' clubhouse\n• Residents' cinema\n• Exclusive sauna\n• Security Measures with UN Standards\n\nLOCATION ADVANTAGE:\nBrookside Oak places you minutes away from key lifestyle and business destinations:\n• Next door to Safaricom Headquarters\n• 7 mins → Sarit Centre\n• 7 mins → MP Shah Hospital\n• 9 mins → Nairobi International School (Senior Campus)\n• 16 mins → Village Market\n• 16 mins → United Nations Office\n\nSecure your space in this premier address today with Kshs.500k and enjoy exclusive benefits for early bookings.`,
     units: [
       { name: "Classic 1 Bedroom", size: "65 sqm", price: "KES 8.8M", type: "1 Bedroom", image: "/images/properties/1BR 65SQM.webp" },
       { name: "Standard 1 Bedroom", size: "70 sqm", price: "Inquire for Price", type: "1 Bedroom", image: "/images/properties/1BR 70SQM.webp" },
@@ -55,19 +55,20 @@ export const MOCK_PROPERTIES: Property[] = [
     type: 'Apartment',
     category: 'Sale',
     imageUrl: '/images/properties/1BR 45SQM-1.webp',
-    description: `ELEVATING URBAN LIVING TO NEW HEIGHTS.\n\nOak Breeze redefines skyline living in Kilimani. A perfect blend of luxury and convenience, located just minutes from Yaya Center and CBD.\n\nAMENITIES:\nRooftop pool & garden, fully equipped gym, minimart, coffee lounge, conference room, indoor kids play area, spa, and borehole water.\n\nLOCATION:\nClose to TDB Tower, CJ’s Kilimani Branch, Yaya Center, Kilimani Primary School, Naivas & Karibu Square, Nairobi Hospital, and the CBD.`,
+    description: `OAK BREEZE – ELEVATING URBAN LIVING TO NEW HEIGHTS!\n\nOak Breeze Residencies, an exceptional collection of 1 & 2-bedroom apartments located along WOOD AVENUE in KILIMANI, Nairobi. Designed for modern living, with close proximity to social amenities and designed for savvy investors looking to maximize returns.\n\nOak Breeze comprises of 2 blocks\n\n3 YEARS PAYMENT PLAN\n\nPROPERTY AMENITIES:\n• Ground Floor Reception\n• Rooftop Swimming Pool & Rooftop Garden\n• Gym & Fitness\n• Minimart\n• Coffee Lounge\n• Conference Room\n• Indoor Kids Play Area\n• Spa\n• Backup Generator\n• Borehole Water\n• 3 Lifts per Block\n\nPROXIMITY TO SOCIAL AMENITIES:\n• 1 minute walk to TDB Tower\n• 2 minutes walk to CJ's Kilimani Branch\n• 3 minutes drive to Yaya Center\n• 4 minutes drive to Kilimani Primary School\n• 5 minutes walk to NAIVAS & KARIBU SQUARE\n• 10 minutes to Nairobi Hospital\n• 15 minutes to CBD\n\nDon't miss out on this opportunity to secure a profitable future. Contact us today to learn more and get a discount for EARLY BOOKINGS!`,
     units: [
-      { name: "Mini 1 Bedroom", size: "45 sqm", price: "KES 5.65M", type: "1 Bedroom", image: "/images/properties/1BR 45SQM-1.webp" },
-      { name: "Standard 1 Bedroom", size: "50 sqm", price: "KES 6.25M", type: "1 Bedroom", image: "/images/properties/1BR 50SQM-1.webp" },
-      { name: "Luxury 1 Bedroom", size: "59 sqm", price: "Inquire for Price", type: "1 Bedroom", image: "/images/properties/1BR 59SQM-1.webp" },
-      { name: "Classic 2 Bedroom", size: "91 sqm", price: "KES 11.4M", type: "2 Bedroom", image: "/images/properties/2BR 91SQM-1.webp" },
-      { name: "Premier 2 Bedroom", size: "95 sqm", price: "Inquire for Price", type: "2 Bedroom", image: "/images/properties/2BR 95SQM-1.webp" },
-      { name: "Executive 2 Bedroom", size: "96 sqm", price: "Inquire for Price", type: "2 Bedroom", image: "/images/properties/2BR 96SQM-1.webp" }
+      { name: "Mini 1 Bedroom", size: "45 sqm", price: "From KES 5.65M", type: "1 Bedroom", image: "/images/properties/1BR 45SQM-1.webp" },
+      { name: "1 Bedroom", size: "50 sqm", price: "From KES 6.25M", type: "1 Bedroom", image: "/images/properties/1BR 50SQM-1.webp" },
+      { name: "1 Bedroom", size: "59 sqm", price: "From KES 7.4M", type: "1 Bedroom", image: "/images/properties/1BR 59SQM-1.webp" },
+      { name: "2 Bedroom", size: "91 sqm", price: "From KES 11.4M", type: "2 Bedroom", image: "/images/properties/2BR 91SQM-1.webp" },
+      { name: "2 Bedroom", size: "95 sqm", price: "From KES 11.9M", type: "2 Bedroom", image: "/images/properties/2BR 95SQM-1.webp" },
+      { name: "2 Bedroom All Ensuite", size: "96 sqm", price: "From KES 12M", type: "2 Bedroom", image: "/images/properties/2BR 96SQM-1.webp" }
     ],
     interiorGalleries: [
+      { title: "Oak Breeze Residency Brochure", badge: "Brochure", images: Array.from({length: 23}, (_, i) => `/images/properties/Oak_Breeze_Residency_Brochure-${String(i + 1).padStart(2, '0')}.webp`) },
       { title: "2 Bedroom (96 SQM)", badge: "Interior & Floor Plan", images: Array.from({length: 9}, (_, i) => `/images/properties/2BR 96SQM-${i + 1}.webp`) },
-      { title: "2 Bedroom (91 SQM)", badge: "Interior & Floor Plan", images: Array.from({length: 8}, (_, i) => `/images/properties/2BR 91SQM-${i + 1}.webp`) },
       { title: "2 Bedroom (95 SQM)", badge: "Interior & Floor Plan", images: Array.from({length: 8}, (_, i) => `/images/properties/2BR 95SQM-${i + 1}.webp`) },
+      { title: "2 Bedroom (91 SQM)", badge: "Interior & Floor Plan", images: Array.from({length: 8}, (_, i) => `/images/properties/2BR 91SQM-${i + 1}.webp`) },
       { title: "1 Bedroom (59 SQM)", badge: "Interior & Floor Plan", images: Array.from({length: 6}, (_, i) => `/images/properties/1BR 59SQM-${i + 1}.webp`) },
       { title: "1 Bedroom (50 SQM)", badge: "Interior & Floor Plan", images: Array.from({length: 5}, (_, i) => `/images/properties/1BR 50SQM-${i + 1}.webp`) },
       { title: "1 Bedroom (45 SQM)", badge: "Interior & Floor Plan", images: Array.from({length: 6}, (_, i) => `/images/properties/1BR 45SQM-${i + 1}.webp`) }

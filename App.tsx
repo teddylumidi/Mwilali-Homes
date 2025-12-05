@@ -12,6 +12,11 @@ type View = 'home' | 'about' | 'sale' | 'rent' | 'contact';
 const MwalaliLogo = React.memo(({ className = "", variant = "light" }: { className?: string, variant?: "light" | "dark" }) => {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
+      <img 
+        src="/images/properties/logo.webp" 
+        alt="Mwalali Homes Logo" 
+        className="h-12 w-auto object-contain transition-transform duration-300 hover:scale-105"
+      />
       <div className="flex-col justify-center">
         <span className={`font-serif font-bold text-2xl leading-none tracking-wide ${variant === 'light' ? 'text-primary' : 'text-white'}`}>MWALALI</span>
         <span className="font-sans font-bold text-[0.6rem] tracking-[0.38em] uppercase mt-0.5 ml-0.5 text-accent">HOMES</span>
@@ -164,8 +169,8 @@ const App: React.FC = () => {
           <div className="py-2 flex flex-col">
             <MobileNavLink view="home" label="Home" />
             <MobileNavLink view="about" label="About Us" />
-            <MobileNavLink view="sale" label="For Sale" />
-            <MobileNavLink view="rent" label="For Rent" />
+            <MobileNavLink view="sale" label="Brookside Oak" />
+            <MobileNavLink view="rent" label="Oak Breeze" />
             <MobileNavLink view="contact" label="Contact Us" />
           </div>
         </div>
@@ -174,15 +179,19 @@ const App: React.FC = () => {
       <main className="flex-grow">
         <Suspense fallback={<div>Loading...</div>}>
         {currentView === 'home' && (
-          <HomeView />
+          <HomeView onNavigate={setCurrentView} />
         )}
 
         {currentView === 'about' && (
           <AboutView />
         )}
 
-        {(currentView === 'sale' || currentView === 'rent') && (
+        {currentView === 'sale' && (
           <SaleView />
+        )}
+
+        {currentView === 'rent' && (
+          <RentView />
         )}
 
         {currentView === 'contact' && (
