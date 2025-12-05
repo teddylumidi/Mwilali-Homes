@@ -2,29 +2,101 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mwalali Homes | Premium Living in Nairobi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     
-    <!-- SEO and PWA Manifest -->
-    <meta name="description" content="Premium real estate in Nairobi featuring Brookside Oak and Oak Breeze developments.">
-    <link rel="manifest" href="./manifest.webmanifest">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+    <!-- Primary Meta Tags -->
+    <title>Mwalali Homes | Premium Real Estate in Nairobi - Brookside Oak & Oak Breeze</title>
+    <meta name="title" content="Mwalali Homes | Premium Real Estate in Nairobi - Brookside Oak & Oak Breeze">
+    <meta name="description" content="Discover luxury living in Nairobi with Mwalali Homes. Premium apartments at Brookside Oak (Westlands) from KES 8.8M and Oak Breeze (Kilimani) from KES 5.65M. Flexible payment plans available.">
+    <meta name="keywords" content="Nairobi real estate, luxury apartments Nairobi, Brookside Oak, Oak Breeze, Westlands apartments, Kilimani apartments, property investment Kenya, premium housing Nairobi">
+    <meta name="author" content="Mwalali Homes">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.mwalalihomes.co.ke/">
 
-    <!-- Performance: Preconnect to Google Fonts -->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.mwalalihomes.co.ke/">
+    <meta property="og:title" content="Mwalali Homes | Premium Real Estate in Nairobi">
+    <meta property="og:description" content="Discover luxury living in Nairobi. Premium apartments from KES 5.65M with flexible payment plans. Brookside Oak & Oak Breeze developments.">
+    <meta property="og:image" content="https://www.mwalalihomes.co.ke/images/properties/nairobi-skyline.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Mwalali Homes">
+    <meta property="og:locale" content="en_KE">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.mwalalihomes.co.ke/">
+    <meta property="twitter:title" content="Mwalali Homes | Premium Real Estate in Nairobi">
+    <meta property="twitter:description" content="Discover luxury living in Nairobi. Premium apartments from KES 5.65M with flexible payment plans.">
+    <meta property="twitter:image" content="https://www.mwalalihomes.co.ke/images/properties/nairobi-skyline.webp">
+
+    <!-- PWA & Mobile App Meta -->
+    <link rel="manifest" href="./manifest.webmanifest">
+    <meta name="theme-color" content="#c05621">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mwalali Homes">
+    <link rel="apple-touch-icon" href="./images/properties/logo.webp">
+    <link rel="icon" type="image/webp" href="./images/properties/logo.webp">
+
+    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     
-    <!-- Fonts -->
+    <!-- Fonts with Display Swap -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Mwalali Homes",
+      "description": "Premium real estate consultancy in Nairobi, Kenya",
+      "url": "https://www.mwalalihomes.co.ke",
+      "logo": "https://www.mwalalihomes.co.ke/images/properties/logo.webp",
+      "email": "mwalalihomes@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Nairobi",
+        "addressCountry": "KE"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Nairobi"
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Brookside Oak Apartments",
+          "price": "8800000",
+          "priceCurrency": "KES"
+        },
+        {
+          "@type": "Offer",
+          "name": "Oak Breeze Apartments",
+          "price": "5650000",
+          "priceCurrency": "KES"
+        }
+      ]
+    }
+    </script>
+    
     <link rel="stylesheet" href="./index.css">
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+        <h1>JavaScript Required</h1>
+        <p>You need to enable JavaScript to run this application. Please enable JavaScript in your browser settings and reload the page.</p>
+      </div>
+    </noscript>
+    <div id="root" role="main"></div>
     <script type="module" src="./index.tsx"></script>
   </body>
 </html>

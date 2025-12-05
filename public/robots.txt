@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.mwalalihomes.co.ke/sitemap.xml
+
+# Disallow crawling of API endpoints or admin areas
+Disallow: /api/
+Disallow: /admin/
