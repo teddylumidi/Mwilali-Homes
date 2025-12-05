@@ -27,7 +27,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             Elevating Urban <br />Living.
           </p>
           <p className="mt-6 max-w-2xl mx-auto text-base sm:text-lg text-gray-300 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-            Discover Brookside Oak and Oak Breeze. Premium developments designed for luxury, comfort, and high returns on investment.
+            Discover premium developments designed for luxury, comfort, and high returns on investment.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
             <button 
