@@ -7,7 +7,12 @@ const Home = () => {
     <div>
       <div className="relative h-[60vh] min-h-[400px] text-white flex items-center">
         <div className="absolute inset-0">
-          <div className="w-full h-full object-cover" />
+          <img
+            src="/images/properties/nairobi-skyline.webp"
+            alt="Nairobi skyline"
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 text-center">
@@ -29,6 +34,17 @@ const Home = () => {
               Contact Us
             </button>
           </div>
+        </div>
+      </div>
+
+      <div className="mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="rounded-lg overflow-hidden shadow-lg">
+          <img
+            src="/images/properties/Luxury Real Estate Nairobi.webp"
+            alt="Luxury real estate in Nairobi"
+            className="w-full h-64 sm:h-80 object-cover"
+            loading="lazy"
+          />
         </div>
       </div>
     </div>
