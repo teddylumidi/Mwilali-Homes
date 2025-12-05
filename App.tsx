@@ -1,12 +1,12 @@
-import React, { useState, useEffect, Suspense, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MapPin, Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
 
-// Lazy-loaded components with better error boundaries
-const HomeView = React.lazy(() => import('./src/components/home'));
-const AboutView = React.lazy(() => import('./src/components/about'));
-const SaleView = React.lazy(() => import('./src/components/sale'));
-const RentView = React.lazy(() => import('./src/components/rent'));
-const ContactView = React.lazy(() => import('./src/components/contact'));
+// Eager imports to avoid chunk-load failures on GH Pages / offline caches
+import HomeView from './src/components/home';
+import AboutView from './src/components/about';
+import SaleView from './src/components/sale';
+import RentView from './src/components/rent';
+import ContactView from './src/components/contact';
 
 type View = 'home' | 'about' | 'sale' | 'rent' | 'contact';
 
@@ -294,13 +294,11 @@ const App: React.FC = () => {
 
         {/* Main Content */}
         <main id="main-content" className="flex-grow" role="main">
-          <Suspense fallback={<LoadingFallback />}>
-            {currentView === 'home' && <HomeView onNavigate={handleNavigate} />}
-            {currentView === 'about' && <AboutView />}
-            {currentView === 'sale' && <SaleView onNavigate={handleNavigate} />}
-            {currentView === 'rent' && <RentView />}
-            {currentView === 'contact' && <ContactView />}
-          </Suspense>
+          {currentView === 'home' && <HomeView onNavigate={handleNavigate} />}
+          {currentView === 'about' && <AboutView />}
+          {currentView === 'sale' && <SaleView onNavigate={handleNavigate} />}
+          {currentView === 'rent' && <RentView />}
+          {currentView === 'contact' && <ContactView />}
         </main>
 
         {/* Footer */}
