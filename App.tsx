@@ -145,8 +145,7 @@ const App: React.FC = () => {
             <div className="hidden md:flex space-x-8 items-center">
               <NavLink view="home" label="Home" />
               <NavLink view="about" label="About Us" />
-              <NavLink view="sale" label="For Sale" />
-              <NavLink view="rent" label="For Rent" />
+              <NavLink view="sale" label="Properties" />
               <NavLink view="contact" label="Contact Us" />
             </div>
 
@@ -169,8 +168,7 @@ const App: React.FC = () => {
           <div className="py-2 flex flex-col">
             <MobileNavLink view="home" label="Home" />
             <MobileNavLink view="about" label="About Us" />
-            <MobileNavLink view="sale" label="Brookside Oak" />
-            <MobileNavLink view="rent" label="Oak Breeze" />
+            <MobileNavLink view="sale" label="Properties" />
             <MobileNavLink view="contact" label="Contact Us" />
           </div>
         </div>
