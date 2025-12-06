@@ -1,31 +1,29 @@
 {
   "name": "mwalali-homes",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@google/genai": "^1.30.0",
     "lucide-react": "^0.555.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-lazy-load-image-component": "^1.6.3",
-    "sharp": "^0.34.5",
-    "vite-plugin-pwa": "^1.2.0"
+    "react-lazy-load-image-component": "^1.6.3"
   },
   "devDependencies": {
+    "@types/node": "^24.10.1",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
-    "gh-pages": "^6.1.1",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
+    "terser": "^5.27.0",
     "typescript": "^5.2.2",
     "vite": "^6.4.1"
   }

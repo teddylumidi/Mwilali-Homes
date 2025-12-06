@@ -1,9 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { fileURLToPath, URL } from 'node:url';
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [react()],
-  base: mode === 'production' ? './' : '/',
+  base: '/',
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./', import.meta.url)),
+      '@components': fileURLToPath(new URL('./components', import.meta.url)),
+      '@src': fileURLToPath(new URL('./src', import.meta.url)),
+    }
+  },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -20,10 +28,9 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           vendor: ['react', 'react-dom'],
           icons: ['lucide-react'],
-          'lazy-load': ['react-lazy-load-image-component'],
         },
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.');
+          const info = assetInfo.name?.split('.') || [];
           const ext = info[info.length - 1];
           if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp/i.test(ext)) {
             return `assets/images/[name]-[hash][extname]`;
@@ -52,4 +59,4 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: ['react', 'react-dom', 'lucide-react']
   }
-}));
+});
