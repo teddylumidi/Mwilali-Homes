@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Property } from '../types';
-import { X, Check, MapPin, Bed, Bath, Square, Phone, Mail, ChevronLeft, ChevronRight, ZoomIn, LayoutGrid, LayoutList } from 'lucide-react';
+import { X, Check, MapPin, Bed, Bath, Square, Phone, Mail, ChevronLeft, ChevronRight, ZoomIn, LayoutGrid, LayoutList, Grid3X3, Image as ImageIcon } from 'lucide-react';
 import { ImageWithSkeleton } from './ImageWithSkeleton';
 
 interface PropertyModalProps {
@@ -9,17 +9,17 @@ interface PropertyModalProps {
   onNavigate?: (view: 'home' | 'about' | 'sale' | 'rent' | 'contact') => void;
 }
 
+
 export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose, onNavigate }) => {
-  // Lightbox State
+  // All hooks must be called on every render, even if property is null
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-
-  // View Mode State
-  const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
-
-  // Contact panel toggle to let users focus on imagery
+  const [viewMode, setViewMode] = useState<'carousel' | 'grid' | 'masonry'>('grid');
   const [contactCollapsed, setContactCollapsed] = useState(false);
+  const [activeGalleryTab, setActiveGalleryTab] = useState<'units' | 'interior' | 'amenities' | 'all'>('all');
+  // Touch swipe for lightbox
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   // Open Lightbox with specific context
   const openLightbox = (images: string[], index: number) => {
@@ -49,15 +49,24 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!lightboxOpen) return;
-      
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowRight') nextLightboxImage();
       if (e.key === 'ArrowLeft') prevLightboxImage();
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [lightboxOpen, nextLightboxImage, prevLightboxImage]);
+
+  // Touch handlers must always be defined
+  const handleTouchStart = (e: React.TouchEvent) => setTouchStartX(e.touches[0].clientX);
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null || lightboxImages.length <= 1) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    const threshold = 40;
+    if (deltaX > threshold) prevLightboxImage();
+    if (deltaX < -threshold) nextLightboxImage();
+    setTouchStartX(null);
+  };
 
   if (!property) return null;
 
@@ -84,18 +93,6 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
       ? property.interiorGalleries?.find(g => g.title.includes('Brochure'))?.images || []
       : [])
   ].filter(Boolean);
-
-  // Touch swipe for lightbox
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
-  const handleTouchStart = (e: React.TouchEvent) => setTouchStartX(e.touches[0].clientX);
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null || lightboxImages.length <= 1) return;
-    const deltaX = e.changedTouches[0].clientX - touchStartX;
-    const threshold = 40;
-    if (deltaX > threshold) prevLightboxImage();
-    if (deltaX < -threshold) nextLightboxImage();
-    setTouchStartX(null);
-  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
@@ -161,8 +158,8 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
                   onClick={() => openLightbox(aggregatedImages, 0)}
                   className="inline-flex items-center gap-2 bg-primary text-white px-4 py-3 rounded-lg shadow hover:bg-primary/90 transition-colors"
                 >
-                  <LayoutGrid size={18} />
-                  <span className="text-sm font-semibold">View Full Gallery</span>
+                  <Grid3X3 size={18} />
+                  <span className="text-sm font-semibold">View All ({aggregatedImages.length})</span>
                 </button>
               )}
             </div>
@@ -183,23 +180,86 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
                     </div>
                     <div className="flex bg-gray-100 rounded-lg p-1 gap-1">
                       <button 
+                        onClick={() => setViewMode('grid')}
+                        className={`p-1.5 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow text-accent' : 'text-gray-500 hover:text-gray-700'}`}
+                        title="Grid View"
+                      >
+                        <Grid3X3 size={18} />
+                      </button>
+                      <button 
+                        onClick={() => setViewMode('masonry')}
+                        className={`p-1.5 rounded-md transition-all ${viewMode === 'masonry' ? 'bg-white shadow text-accent' : 'text-gray-500 hover:text-gray-700'}`}
+                        title="Masonry View"
+                      >
+                        <LayoutGrid size={18} />
+                      </button>
+                      <button 
                         onClick={() => setViewMode('carousel')}
                         className={`p-1.5 rounded-md transition-all ${viewMode === 'carousel' ? 'bg-white shadow text-accent' : 'text-gray-500 hover:text-gray-700'}`}
                         title="Carousel View"
                       >
                         <LayoutList size={18} />
                       </button>
-                      <button 
-                        onClick={() => setViewMode('grid')}
-                        className={`p-1.5 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow text-accent' : 'text-gray-500 hover:text-gray-700'}`}
-                        title="Grid View"
-                      >
-                        <LayoutGrid size={18} />
-                      </button>
                     </div>
                   </div>
                   
-                  {viewMode === 'carousel' ? (
+                  {viewMode === 'grid' ? (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {property.units.map((unit, idx) => (
+                        <div 
+                          key={idx} 
+                          className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden cursor-pointer transform hover:-translate-y-1"
+                          onClick={() => openLightbox(allUnitImages, idx)}
+                        >
+                          <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+                            <ImageWithSkeleton 
+                              src={unit.image} 
+                              alt={unit.name} 
+                              className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-110"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                              <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 drop-shadow-lg" size={32}/>
+                            </div>
+                            <div className="absolute top-2 right-2 bg-accent text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase shadow-sm">
+                              {unit.type}
+                            </div>
+                          </div>
+                          <div className="p-3 bg-white">
+                            <h4 className="font-bold text-primary text-sm leading-tight truncate">{unit.name}</h4>
+                            <p className="text-xs text-gray-500 mt-0.5">{unit.size}</p>
+                            <p className="text-accent font-bold text-sm mt-2">{unit.price}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : viewMode === 'masonry' ? (
+                    <div className="columns-2 sm:columns-3 gap-4 space-y-4">
+                      {property.units.map((unit, idx) => (
+                        <div 
+                          key={idx} 
+                          className="group break-inside-avoid bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden cursor-pointer mb-4"
+                          onClick={() => openLightbox(allUnitImages, idx)}
+                        >
+                          <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+                            <ImageWithSkeleton 
+                              src={unit.image} 
+                              alt={unit.name} 
+                              className="w-full h-auto object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                              <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 drop-shadow-lg" size={28}/>
+                            </div>
+                            <div className="absolute bottom-2 left-2 right-2 bg-black/70 backdrop-blur-sm text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <p className="font-bold text-xs truncate">{unit.name}</p>
+                              <p className="text-accent text-xs font-semibold">{unit.price}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
                     <div className="relative group/carousel">
                        <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
                           {property.units.map((unit, idx) => (
@@ -235,32 +295,6 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
                           <ChevronRight size={24} className="text-accent animate-pulse"/>
                        </div>
                     </div>
-                  ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {property.units.map((unit, idx) => (
-                         <div key={idx} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 overflow-hidden flex flex-row sm:flex-col">
-                            <div 
-                              className="relative w-32 sm:w-full sm:aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image shrink-0" 
-                              onClick={() => openLightbox(allUnitImages, idx)}
-                            >
-                               <ImageWithSkeleton 
-                                  src={unit.image} 
-                                  alt={unit.name} 
-                                  className="w-full h-full object-contain p-2"
-                                  loading="lazy"
-                               />
-                               <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/10 transition-colors flex items-center justify-center z-20">
-                                  <ZoomIn className="text-white opacity-0 group-hover/image:opacity-100 transform scale-75 group-hover/image:scale-100 transition-all drop-shadow-lg" size={24}/>
-                               </div>
-                            </div>
-                            <div className="p-3 flex flex-col flex-grow justify-center sm:justify-start">
-                               <h4 className="font-bold text-primary text-sm sm:text-base leading-tight mb-1">{unit.name}</h4>
-                               <p className="text-xs text-gray-500 mb-2">{unit.size} • {unit.type}</p>
-                               <p className="text-accent font-bold text-sm">{unit.price}</p>
-                            </div>
-                         </div>
-                      ))}
-                    </div>
                   )}
                 </div>
               )}
@@ -268,41 +302,56 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
               {/* Interior Galleries Section */}
               {property.interiorGalleries && property.interiorGalleries.map((gallery, gIdx) => (
                 <div key={gIdx} className="mt-8">
-                   <h3 className="text-xl font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">
-                      {gallery.title}
-                   </h3>
-                   <div className="relative group/carousel">
-                      <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
-                        {gallery.images.map((img, idx) => (
-                           <div key={idx} className="snap-center shrink-0 w-[280px] sm:w-[320px] bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden">
-                              <div 
-                                className="relative aspect-[4/3] bg-gray-100 cursor-pointer overflow-hidden group/image" 
-                                onClick={() => openLightbox(gallery.images, idx)}
-                              >
-                                 <ImageWithSkeleton 
-                                    src={img} 
-                                    alt={`${gallery.title} ${idx + 1}`} 
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover/image:scale-105"
-                                    loading="lazy"
-                                 />
-                                 <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/10 transition-colors flex items-center justify-center z-20">
-                                    <ZoomIn className="text-white opacity-0 group-hover/image:opacity-100 transform scale-75 group-hover/image:scale-100 transition-all drop-shadow-lg" size={32}/>
-                                 </div>
-                                 <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm shadow-sm z-20">
-                                    {gallery.badge || 'Image'}
-                                 </div>
-                              </div>
-                              <div className="p-3 bg-white border-t border-gray-50 text-center">
-                                <p className="text-sm font-semibold text-gray-700">View {idx + 1}</p>
-                              </div>
+                   <div className="flex items-center justify-between mb-4">
+                     <h3 className="text-xl font-bold text-primary font-serif border-l-4 border-accent pl-3">
+                        {gallery.title}
+                     </h3>
+                     <span className="bg-accent/10 text-accent text-xs px-3 py-1 rounded-full font-semibold">
+                       {gallery.images.length} images
+                     </span>
+                   </div>
+                   
+                   {/* Creative 3-column grid with featured first image */}
+                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                     {gallery.images.slice(0, 6).map((img, idx) => (
+                       <div 
+                         key={idx} 
+                         className={`group relative bg-gray-100 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 ${
+                           idx === 0 ? 'col-span-2 row-span-2 aspect-square sm:aspect-[4/3]' : 'aspect-square'
+                         }`}
+                         onClick={() => openLightbox(gallery.images, idx)}
+                       >
+                         <ImageWithSkeleton 
+                           src={img} 
+                           alt={`${gallery.title} ${idx + 1}`} 
+                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                           loading="lazy"
+                         />
+                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                         <div className="absolute inset-0 flex items-center justify-center">
+                           <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 drop-shadow-lg" size={idx === 0 ? 40 : 28}/>
+                         </div>
+                         {idx === 0 && (
+                           <div className="absolute bottom-3 left-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm">
+                             {gallery.badge || 'Featured'}
                            </div>
-                        ))}
-                      </div>
-                      {gallery.images.length > 2 && (
-                        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white/80 p-2 rounded-full shadow-lg md:hidden pointer-events-none">
-                            <ChevronRight size={24} className="text-accent animate-pulse"/>
-                        </div>
-                      )}
+                         )}
+                       </div>
+                     ))}
+                     
+                     {/* Show "View More" if more than 6 images */}
+                     {gallery.images.length > 6 && (
+                       <div 
+                         className="group relative bg-gradient-to-br from-primary to-primary/80 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 aspect-square flex items-center justify-center"
+                         onClick={() => openLightbox(gallery.images, 6)}
+                       >
+                         <div className="text-center text-white p-4">
+                           <ImageIcon size={32} className="mx-auto mb-2 opacity-80" />
+                           <p className="font-bold text-lg">+{gallery.images.length - 6}</p>
+                           <p className="text-xs opacity-80">View More</p>
+                         </div>
+                       </div>
+                     )}
                    </div>
                 </div>
               ))}
@@ -325,28 +374,51 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
                   ))}
                 </div>
 
-                {/* Amenities Gallery Grid */}
+                {/* Amenities Gallery Grid - Creative 3x3 Layout */}
                 {property.amenitiesGallery && property.amenitiesGallery.length > 0 && (
-                  <div>
-                    <h4 className="text-lg font-bold text-primary mb-4 font-serif border-l-4 border-accent pl-3">{property.title} Amenities Gallery</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      {property.amenitiesGallery.map((img, idx) => (
+                  <div className="mt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-lg font-bold text-primary font-serif border-l-4 border-accent pl-3">{property.title} Amenities Gallery</h4>
+                      <span className="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full font-semibold">
+                        {property.amenitiesGallery.length} photos
+                      </span>
+                    </div>
+                    
+                    {/* 3-column responsive grid */}
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                      {property.amenitiesGallery.slice(0, 9).map((img, idx) => (
                         <div 
                           key={idx} 
-                          className="aspect-square bg-gray-100 rounded-lg overflow-hidden cursor-pointer shadow-sm border border-gray-100 group/amenity relative" 
+                          className={`group relative bg-gray-100 rounded-lg overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 ${
+                            idx === 0 || idx === 4 ? 'aspect-[4/3]' : 'aspect-square'
+                          }`}
                           onClick={() => openLightbox(property.amenitiesGallery!, idx)}
                         >
                           <ImageWithSkeleton 
                             src={img} 
                             alt={`Amenity ${idx + 1}`} 
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover/amenity:scale-110"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             loading="lazy"
                           />
-                          <div className="absolute inset-0 bg-black/0 group-hover/amenity:bg-black/10 transition-colors flex items-center justify-center z-20">
-                            <ZoomIn className="text-white opacity-0 group-hover/amenity:opacity-100 transform scale-75 group-hover/amenity:scale-100 transition-all drop-shadow-md" size={24}/>
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 drop-shadow-md" size={24}/>
                           </div>
                         </div>
                       ))}
+                      
+                      {/* View all button if more than 9 images */}
+                      {property.amenitiesGallery.length > 9 && (
+                        <div 
+                          className="group relative bg-gradient-to-br from-accent to-orange-600 rounded-lg overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 aspect-square flex items-center justify-center"
+                          onClick={() => openLightbox(property.amenitiesGallery!, 9)}
+                        >
+                          <div className="text-center text-white">
+                            <p className="font-bold text-2xl">+{property.amenitiesGallery.length - 9}</p>
+                            <p className="text-xs opacity-90">View All</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -448,9 +520,9 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
         </button>
       )}
 
-      {/* Advanced Lightbox Modal */}
+      {/* Advanced Lightbox Modal with Thumbnail Strip */}
       {lightboxOpen && lightboxImages.length > 0 && (
-         <div className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center animate-in fade-in duration-200">
+         <div className="fixed inset-0 z-[60] bg-black/95 flex flex-col animate-in fade-in duration-200">
             {/* Close Button */}
             <button 
               onClick={closeLightbox}
@@ -464,13 +536,13 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
               <>
                 <button 
                   onClick={prevLightboxImage}
-                  className="absolute left-4 z-[70] p-3 bg-black/50 hover:bg-white/20 rounded-full text-white transition-all hover:scale-110"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-[70] p-3 bg-black/50 hover:bg-white/20 rounded-full text-white transition-all hover:scale-110"
                 >
                   <ChevronLeft size={40} />
                 </button>
                 <button 
                   onClick={nextLightboxImage}
-                  className="absolute right-4 z-[70] p-3 bg-black/50 hover:bg-white/20 rounded-full text-white transition-all hover:scale-110"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-[70] p-3 bg-black/50 hover:bg-white/20 rounded-full text-white transition-all hover:scale-110"
                 >
                   <ChevronRight size={40} />
                 </button>
@@ -478,13 +550,13 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
             )}
             
             {/* Image Counter */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/60 px-4 py-1 rounded-full text-white text-sm font-medium backdrop-blur-sm z-[70]">
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-black/60 px-4 py-1.5 rounded-full text-white text-sm font-medium backdrop-blur-sm z-[70]">
               {lightboxIndex + 1} / {lightboxImages.length}
             </div>
 
             {/* Main Image */}
             <div 
-              className="w-full h-full flex items-center justify-center p-4 sm:p-12" 
+              className="flex-1 flex items-center justify-center p-4 sm:p-8 pb-24" 
               onClick={closeLightbox}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
@@ -493,16 +565,16 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
                   <iframe 
                     key={lightboxIndex}
                     src={lightboxImages[lightboxIndex]}
-                    className="w-full h-[85vh] bg-white shadow-2xl rounded-sm"
+                    className="w-full h-full max-h-[70vh] bg-white shadow-2xl rounded-sm"
                     title="Zoomed PDF"
-                    onClick={(e) => e.stopPropagation()} // Allow clicking inside PDF
+                    onClick={(e) => e.stopPropagation()}
                   />
                ) : (
                   <img 
-                    key={lightboxIndex} // Force re-render for animation
+                    key={lightboxIndex}
                     src={lightboxImages[lightboxIndex]} 
                     alt={`Zoomed View ${lightboxIndex + 1}`} 
-                    className="max-w-full max-h-full object-contain shadow-2xl rounded-sm animate-in zoom-in-95 duration-300"
+                    className="max-w-full max-h-[70vh] object-contain shadow-2xl rounded-sm animate-in zoom-in-95 duration-300"
                     onClick={(e) => e.stopPropagation()} 
                     onError={(e) => {
                       const fallback = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
@@ -513,21 +585,35 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose,
                )}
             </div>
 
+            {/* Thumbnail Strip */}
             {lightboxImages.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-[70]">
-                {lightboxImages.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLightboxIndex(idx);
-                    }}
-                    aria-label={`Go to slide ${idx + 1}`}
-                    className={`h-2.5 w-2.5 rounded-full transition-colors ${
-                      idx === lightboxIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/70'
-                    }`}
-                  />
-                ))}
+              <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm py-3 px-4 z-[70]">
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide justify-center max-w-4xl mx-auto">
+                  {lightboxImages.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setLightboxIndex(idx);
+                      }}
+                      className={`shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden transition-all duration-200 ${
+                        idx === lightboxIndex 
+                          ? 'ring-2 ring-accent ring-offset-2 ring-offset-black scale-105' 
+                          : 'opacity-50 hover:opacity-80'
+                      }`}
+                    >
+                      <img 
+                        src={img} 
+                        alt={`Thumbnail ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.currentTarget as HTMLImageElement;
+                          target.style.display = 'none';
+                        }}
+                      />
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
          </div>
